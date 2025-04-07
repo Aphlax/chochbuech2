@@ -1,17 +1,21 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
+import {Router, RouterModule} from '@angular/router';
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import { FlexLayoutModule } from "@angular/flex-layout";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatToolbar, MatIconButton, MatIcon, FlexLayoutModule],
+  imports: [RouterModule, MatToolbar, MatIconButton, MatIcon, FlexLayoutModule, MatSidenavModule, MatListModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'chochbuech2';
+  constructor(public router: Router) {
+  }
+
 }

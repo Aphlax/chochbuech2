@@ -1,0 +1,28 @@
+mat-sidenav-container, #sidenav-content {
+  height: 100%;
+}
+
+#app-icon-big {
+  align-self: center;
+  margin: 48px auto 24px;
+  padding: 24px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  user-select: none;
+  outline: none;
+}
+
+#app-icon-big > img {
+  width: 96px;
+  height: 96px;
+  filter: invert(100%);
+  pointer-events: none;
+}
+
+.credits {
+  align-self: center;
+  padding-bottom: 12px;
+  font-family: "Gotham", sans-serif;
+  color: lightgray;
+  user-select: none;
+}
