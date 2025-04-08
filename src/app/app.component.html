@@ -16,20 +16,22 @@
       <span class="credits">s&#8217;Chochbuech vom Fabian</span>
     </div>
   </mat-sidenav>
-  <mat-toolbar fxLayout="row">
-    <button mat-icon-button (click)="router.navigate(['/'])">
-      <img src="app-icon.png" alt="">
-    </button>
-    <span (click)="router.navigate(['/'])">Chochbuech</span>
-    <span fxFlex></span>
-    @if (router.url == "/shopping-list") {
-    <button mat-icon-button aria-label="Entferne selektierte Produkte" (click)="sidenav.toggle()">
-      <mat-icon>remove_done</mat-icon>
-    </button>
-    }
-    <button mat-icon-button aria-label="Menu öffnen" (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-  </mat-toolbar>
-  <router-outlet/>
+  <mat-sidenav-content fxLayout="column">
+    <mat-toolbar fxLayout="row">
+      <button mat-icon-button (click)="router.navigate(['/'])">
+        <img src="app-icon.png" alt="">
+      </button>
+      <span (click)="router.navigate(['/'])">Chochbuech</span>
+      <span fxFlex></span>
+      @if (router.url == "/shopping-list") {
+      <button mat-icon-button aria-label="Entferne selektierte Produkte" (click)="sidenav.toggle()">
+        <mat-icon>remove_done</mat-icon>
+      </button>
+      }
+      <button mat-icon-button aria-label="Menu öffnen" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <router-outlet/>
+  </mat-sidenav-content>
 </mat-sidenav-container>

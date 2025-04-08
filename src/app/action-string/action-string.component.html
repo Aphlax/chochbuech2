@@ -1,0 +1,7 @@
+@for (piece of value; track $index) {
+  @if (piece.type == 0) {
+    <span>{{piece.value}}</span>
+  } @else if (piece.type == 1) {
+    <a [routerLink]="piece.href">{{piece.value}}</a>
+  }
+}

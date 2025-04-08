@@ -2,6 +2,10 @@ mat-sidenav-container, #sidenav-content {
   height: 100%;
 }
 
+mat-toolbar {
+  z-index: 1;
+}
+
 #app-icon-big {
   align-self: center;
   margin: 48px auto 24px;

@@ -1,1 +1,9 @@
-<p>start-page works!</p>
+<div class="recipes-container" fxLayout="row wrap">
+  @for(recipe of recipes; track recipe.id) {
+  <a class="recipe" fxLayout="column" routerLink="r/{{recipe.id}}">
+    <div class="image" style="background-image: url('{{'http://choch-buech.ch/' + recipe.image}}');">
+      <span class="name">{{recipe.name}}</span>
+    </div>
+  </a>
+  }
+</div>
