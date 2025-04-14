@@ -15,7 +15,7 @@ export class StartPageComponent {
   recipes: Recipe[] = [];
 
   constructor(private http: HttpClient) {
-    http.get<Recipe[]>('http://choch-buech.ch/listRecipes', {params: {category: 'all'}})
+    http.get<Recipe[]>('/listRecipes', {params: {category: 'all'}})
       .subscribe(recipes => {
         this.recipes = recipes;
       });

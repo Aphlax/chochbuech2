@@ -10,12 +10,12 @@ import {catchError, of} from "rxjs";
 
 const recipeResolver: ResolveFn<Recipe> = (route: ActivatedRouteSnapshot) => {
   return inject(HttpClient)
-    .get<Recipe>('http://choch-buech.ch/recipe/recipe' + route.paramMap.get('id'))
+    .get<Recipe>('/recipe/recipe' + route.paramMap.get('id'))
     .pipe(catchError(() => of()));
 };
 
 export const routes: Routes = [
-  {path: '', component: StartPageComponent},
+  {path: '', component: StartPageComponent, pathMatch: 'full'},
   {path: 'shopping-list', component: ShoppingPageComponent},
   {
     path: 'r/:id',

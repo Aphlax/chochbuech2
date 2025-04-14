@@ -1,0 +1,6 @@
+{
+  "mongoUser": "user",
+  "mongoUrl": "chochbuech.zxgpe.mongodb.net",
+  "mongoDb": "main",
+  "serverProdPort": "8081"
+}

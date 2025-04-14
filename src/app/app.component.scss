@@ -3,6 +3,7 @@ mat-sidenav-container, #sidenav-content {
 }
 
 mat-toolbar {
+  flex: none;
   z-index: 1;
 }
 
