@@ -1,16 +1,18 @@
+@if (recipe$ | async; as recipe) {
+@if (display$ | async; as display) {
 <div class="image" style="background-image: url('{{recipe.image}}');"></div>
 <div class="card-container" ScrollOnLoad>
   <div class="card-spacer"></div>
   <div class="card" [ngClass]="{zoom: zoom}" fxLayout="column">
     <div fxLayout="row">
       <span class="name" fxFlex>{{recipe.name}}</span>
-      <button mat-icon-button class="share-button" (click)="shareRecipe()">
+      <button mat-icon-button class="share-button" (click)="shareRecipe(recipe)">
         <mat-icon>share</mat-icon>
       </button>
     </div>
     @for (group of display.ingredientGroups; track $index) {
       @if (group.name) {
-      <span class="ingredient-group-name" (click)="zoom = true" tabindex="-1">{{group.name}}</span>
+        <span class="ingredient-group-name" (click)="zoom = true" tabindex="-1">{{group.name}}</span>
       }
       <ul class="ingredient-group-list" (click)="zoom = true" tabindex="-1">
         @for (item of group.items; track $index) {
@@ -33,3 +35,5 @@
     <action-string class="notes" [value]="display.notes"></action-string>
   </div>
 </div>
+}
+}

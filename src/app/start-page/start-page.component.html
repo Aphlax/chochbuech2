@@ -1,9 +1,15 @@
-<div class="recipes-container" fxLayout="row wrap">
-  @for(recipe of recipes; track recipe.id) {
-  <a class="recipe" fxLayout="column" routerLink="r/{{recipe.id}}">
-    <div class="image" style="background-image: url('{{recipe.image}}');">
-      <span class="name">{{recipe.name}}</span>
-    </div>
-  </a>
+<mat-tab-group>
+  @for (tab of tabs$ | async; track tab.category) {
+  <mat-tab [label]="tab.label">
+    <mat-tab-content fxLayout="row wrap">
+      @for(recipe of tab.recipes; track recipe.id) {
+      <a class="recipe" fxLayout="column" routerLink="r/{{recipe.id}}">
+        <div class="image" style="background-image: url('{{recipe.image}}');">
+          <span class="name">{{recipe.name}}</span>
+        </div>
+      </a>
+      }
+    </mat-tab-content>
+  </mat-tab>
   }
-</div>
+</mat-tab-group>

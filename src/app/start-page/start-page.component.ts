@@ -1,23 +1,28 @@
 import {Component} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {FlexLayoutModule} from "@angular/flex-layout";
-import {RouterModule} from "@angular/router";
+import {ActivatedRoute, RouterModule} from "@angular/router";
 import {Recipe} from "../utils/recipe";
+import {AsyncPipe} from "@angular/common";
+import {map, Observable} from "rxjs";
+import {MatTabsModule} from "@angular/material/tabs";
+
+interface Tab {
+  label: string;
+  category: string;
+  recipes: Recipe[];
+}
 
 @Component({
   selector: 'start-page',
   standalone: true,
-  imports: [FlexLayoutModule, RouterModule],
+  imports: [FlexLayoutModule, RouterModule, AsyncPipe, MatTabsModule],
   templateUrl: './start-page.component.html',
   styleUrl: './start-page.component.scss'
 })
 export class StartPageComponent {
-  recipes: Recipe[] = [];
+  tabs$: Observable<Tab[]>;
 
-  constructor(private http: HttpClient) {
-    http.get<Recipe[]>('/listRecipes', {params: {category: 'all'}})
-      .subscribe(recipes => {
-        this.recipes = recipes;
-      });
+  constructor(private readonly route: ActivatedRoute) {
+    this.tabs$ = route.data.pipe(map(data => data['tabs']));
   }
 }
