@@ -1,5 +1,6 @@
-mat-sidenav-container, #sidenav-content {
+mat-sidenav-container, #sidenav-content, #page-content {
   height: 100%;
+  overflow: hidden;
 }
 
 mat-toolbar {

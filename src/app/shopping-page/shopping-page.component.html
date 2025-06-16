@@ -1,1 +1,42 @@
-<p>shopping-page works!</p>
+<div fxLayout="row" fxFlex="none">
+  <h2 fxFlex>Einkaufsliste</h2>
+  @if (list.length) {
+  <button mat-icon-button class="share-button" (click)="shareShoppingList()">
+    <mat-icon>share</mat-icon>
+  </button>
+  }
+</div>
+<div class="page-content" fxFill fxLayout="column">
+  <sortable-list fxFlex="none" (order-changed)="onOrderChanged(1)">
+    @for (item of list; track $index) {
+    <sortable-list-item>
+      <mat-checkbox [(ngModel)]="item.selected">
+        <label>
+          {{item.label}}
+          @if (item.origin) {
+          <em class="origin">{{item.origin}}</em>
+          }
+        </label>
+      </mat-checkbox>
+      <div fxFlex (click)="item.selected = !item.selected"></div>
+    </sortable-list-item>
+    }
+  </sortable-list>
+  @if (!list.length && !showNewItem) {
+  <div class="no-items" fxFlex>
+    Deine Einkaufsliste ist leer.
+  </div>
+  }
+  @if (showNewItem) {
+  <div class="new-item-container" fxLayout="row" fxFlex="none">
+    <mat-icon class="drag-icon" disabled>drag_indicator</mat-icon>
+    <mat-checkbox disabled></mat-checkbox>
+    <input #newItemInput [(ngModel)]="newItemLabel" (keyup.enter)="addNewItem()"
+           (blur)="addNewItem(); showNewItem = false;"/>
+  </div>
+  } @else {
+  <button mat-fab class="new-item-button" (click)="openNewItem()">
+    <mat-icon>add</mat-icon>
+  </button>
+  }
+</div>

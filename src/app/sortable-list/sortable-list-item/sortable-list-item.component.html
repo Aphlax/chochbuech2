@@ -1,0 +1,7 @@
+<mat-icon class="drag-icon"
+          (touchstart)="startDrag($event)" (mousedown)="startDrag($event)"
+          (touchmove)="mousemove($event)" (mousemove)="mousemove($event)"
+          (touchend)="mouseup()" (touchcancel)="mouseup()" (mouseup)="mouseup()">
+  drag_indicator
+</mat-icon>
+<ng-content></ng-content>
