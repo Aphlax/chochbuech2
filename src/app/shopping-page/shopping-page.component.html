@@ -7,18 +7,16 @@
   }
 </div>
 <div class="page-content" fxFill fxLayout="column">
-  <sortable-list fxFlex="none" (order-changed)="onOrderChanged(1)">
+  <sortable-list fxFlex="none" (orderChanged)="onOrderChanged($event)">
     @for (item of list; track $index) {
     <sortable-list-item>
-      <mat-checkbox [(ngModel)]="item.selected">
-        <label>
-          {{item.label}}
-          @if (item.origin) {
-          <em class="origin">{{item.origin}}</em>
-          }
-        </label>
+      <mat-checkbox [(ngModel)]="item.selected" (change)="onSelectionChanged($index)">
+        {{item.label}}
+        @if (item.origin) {
+        <em class="origin">{{item.origin}}</em>
+        }
       </mat-checkbox>
-      <div fxFlex (click)="item.selected = !item.selected"></div>
+      <div fxFlex (click)="item.selected = !item.selected; onSelectionChanged($index)"></div>
     </sortable-list-item>
     }
   </sortable-list>

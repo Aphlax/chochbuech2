@@ -39,7 +39,7 @@ export class RecipePageComponent {
     } else if ('clipboard' in navigator) {
       await (navigator as any).clipboard.writeText(
         `${window.location}#${recipe.name.replaceAll(' ', '-')}`);
-      this.snackBar.open('Link kopiert!', undefined, {duration: 3000});
+      this.snackBar.open('Link kopiert!', undefined, {duration: 1000});
     }
   }
 }

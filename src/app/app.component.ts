@@ -7,6 +7,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {FlexLayoutServerModule} from "@angular/flex-layout/server";
+import {BroadcastService} from "./broadcast.service";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import {FlexLayoutServerModule} from "@angular/flex-layout/server";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  constructor(public router: Router) {
+  constructor(public readonly router: Router, public readonly $broadcast: BroadcastService) {
   }
 
 }

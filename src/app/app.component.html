@@ -24,7 +24,7 @@
       <span (click)="router.navigate(['/'])">Chochbuech</span>
       <span fxFlex></span>
       @if (router.url == "/shopping-list") {
-      <button mat-icon-button aria-label="Entferne selektierte Produkte" (click)="sidenav.toggle()">
+      <button mat-icon-button aria-label="Entferne selektierte Produkte" (click)="$broadcast.shoppingListRemoveDone()">
         <mat-icon>remove_done</mat-icon>
       </button>
       }

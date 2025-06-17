@@ -38,11 +38,16 @@ export class SortableListItemComponent implements OnInit, OnDestroy {
   }
 
   mousemove(event: TouchEvent | MouseEvent) {
+    if (!this.isDragging) return;
     const maxOffset = (this.sortableList.items.length - 1) * SortableListItemComponent.HEIGHT;
     this.offset = Math.max(Math.min(getPageY(event) - this.dragStart, maxOffset), 0);
     const oldIndex = this.index;
     this.index = Math.round(this.offset / SortableListItemComponent.HEIGHT);
     if (this.index != oldIndex) {
+      if (Math.abs(this.index - oldIndex) >= 2) {
+        this.mouseup();
+        return;
+      }
       this.sortableList.swap(oldIndex, this.index);
     }
   }

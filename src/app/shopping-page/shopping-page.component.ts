@@ -10,6 +10,8 @@ import {
   SortableListItemComponent
 } from "../sortable-list/sortable-list-item/sortable-list-item.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CookieService} from "ngx-cookie";
+import {BroadcastService} from "../broadcast.service";
 
 interface ShoppingItem {
   selected: boolean;
@@ -17,6 +19,10 @@ interface ShoppingItem {
   origin?: string;
   encoded: string;
 }
+
+const COOKIE_NAME = 'shopping-list';
+const TICK = '✓';
+const COOKIE_OPTIONS = {expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))};
 
 @Component({
   selector: 'shopping-page',
@@ -27,48 +33,64 @@ interface ShoppingItem {
   styleUrl: './shopping-page.component.scss',
 })
 export class ShoppingPageComponent {
-  @ViewChild('newItemInput') newItemInput!: ElementRef;
-  list: ShoppingItem[] = [
-    'Cream (Steinpilzrisotto)', '✓Gorgonzola (Steinpilzrisotto)',
-    '1 Dose Champignons (Spanische Tortilla)', '✓800g Dorschfilets, gefroren (Dorschfilets mit Ananas)',
-    '1 kleine Dose Ananas (Dorschfilets mit Ananas)', '✓3dl Sauce Hollandaise (Dorschfilets mit Ananas)',
-    '50g Mandelsplitter (Dorschfilets mit Ananas)',
-    'Zitronensaft, Salz, Pfeffer, Melanin, Zucker, Iodit (Dorschfilets mit Ananas)',
-    '1 Dose Sardellenfilets (Spaghetti mit Thon-Sauce)', '✓3EL Weisswein (Spaghetti mit Thon-Sauce)',
-    '200g saurer Halbrahm (Spaghetti mit Thon-Sauce)', 'Zitronensaft, Pfeffer (Spaghetti mit Thon-Sauce)',
-    'Pengasius filets (Fisch Lasagne)', 'Rotkraut (suppe)', '1 Bund Fruehlingszwiebeln (Reis-Thonsalat)',
-    'Papier, bleistift', 'Haschken'
-  ].map(createItem);
+  @ViewChild('newItemInput') newItemInput?: ElementRef;
+  list: ShoppingItem[];
+  order: number[];
   showNewItem = false;
   newItemLabel = '';
 
-  constructor(private readonly snackBar: MatSnackBar) { // https://github.com/salemdar/ngx-cookie
+  constructor(private readonly cookieService: CookieService, private readonly snackBar: MatSnackBar,
+              $broadcast: BroadcastService) {
+    this.list = (cookieService.get(COOKIE_NAME) ?? '').split('\n').filter(i => i).map(createItem);
+    this.order = this.list.map((s, i) => i);
+    $broadcast.shoppingListRemoveDoneEvent.subscribe(() => this.onRemoveDone());
   }
 
   openNewItem() {
     this.showNewItem = true;
-    setTimeout(() => this.newItemInput.nativeElement.focus(), 0);
+    setTimeout(() => this.newItemInput?.nativeElement.focus(), 0);
   }
 
   addNewItem() {
     if (!this.newItemLabel) return;
     this.list.push(createItem(this.newItemLabel));
     this.newItemLabel = '';
-    setTimeout(() => this.newItemInput.nativeElement.scrollIntoView(), 0);
+    setTimeout(() => this.newItemInput?.nativeElement.scrollIntoView(), 0);
   }
 
   async shareShoppingList() {
-    const text = this.list.map(item => item.label.trim()).join('\n');
+    const shoppingList = this.cookieService.get(COOKIE_NAME);
+    if (!shoppingList) return;
+    const text = shoppingList.split('\n').filter(i => i)
+      .map(item => createItem(item).label.trim()).join('\n');
     if ('share' in navigator) {
       await navigator.share({title: 'Einkaufsliste', text});
     } else if ('clipboard' in navigator) {
       await (navigator as any).clipboard.writeText(text);
-      this.snackBar.open('Einkaufsliste kopiert!', undefined, {duration: 3000});
+      this.snackBar.open('Einkaufsliste kopiert!', undefined, {duration: 1000});
     }
   }
 
-  onOrderChanged(order: any) {
+  onOrderChanged(order: number[]) {
+    if (order.length != this.list.length) return;
+    this.order = order;
+    const orderedList = order.map(i => this.list[i].encoded + '\n');
+    this.cookieService.put(COOKIE_NAME, orderedList.join(''), COOKIE_OPTIONS);
+  }
 
+  onSelectionChanged(i: number) {
+    const shoppingItem = this.list[i];
+    if (shoppingItem.selected && shoppingItem.encoded[0] != TICK) {
+      shoppingItem.encoded = TICK + shoppingItem.encoded;
+    } else if (!shoppingItem.selected && shoppingItem.encoded[0] == TICK) {
+      shoppingItem.encoded = shoppingItem.encoded.slice(1);
+    }
+    const orderedList = this.order.map(i => this.list[i].encoded + '\n');
+    this.cookieService.put(COOKIE_NAME, orderedList.join(''), COOKIE_OPTIONS);
+  }
+
+  onRemoveDone() {
+    this.list = this.list.filter(i => !i.selected);
   }
 }
 

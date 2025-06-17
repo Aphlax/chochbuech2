@@ -28,16 +28,12 @@ h2 {
 mat-checkbox {
   margin: 2px 0;
   overflow: hidden;
-}
-
-mat-checkbox label {
-  overflow: hidden;
-  line-height: 24px;
+  line-height: 40px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-mat-checkbox label .origin {
+mat-checkbox .origin {
   color: lightgray;
 }
 
