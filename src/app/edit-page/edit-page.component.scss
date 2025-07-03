@@ -1,0 +1,75 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.image {
+  height: 150px;
+  width: 150px;
+  cursor: pointer;
+}
+
+.name {
+  padding-top: 24px;
+  padding-left: 10px;
+}
+
+mat-radio-button {
+  display: block;
+  position: relative;
+  margin: 0 10px;
+  width: 40px;
+  height: 40px;
+  --mdc-radio-selected-icon-color: cornflowerblue;
+  --mdc-radio-selected-focus-icon-color: cornflowerblue;
+}
+
+:host ::ng-deep mat-radio-button .mdc-form-field,
+:host ::ng-deep mat-radio-button .mdc-radio,
+:host ::ng-deep mat-radio-button .mdc-radio__native-control,
+:host ::ng-deep mat-radio-button .mdc-radio__background,
+:host ::ng-deep mat-radio-button .mdc-radio__background:before,
+:host ::ng-deep mat-radio-button .mdc-radio__outer-circle,
+:host ::ng-deep mat-radio-button .mdc-radio__inner-circle,
+:host ::ng-deep mat-radio-button .mdc-label {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+:host ::ng-deep mat-radio-button .mdc-radio__native-control:checked + .mdc-radio__background .mdc-radio__inner-circle {
+  transform: scale(0.75);
+  border-width: 20px;
+}
+
+mat-radio-button mat-icon {
+  position: absolute;
+  top: calc(50% - 12px);
+  left: calc(50% - 12px);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+mat-chip-listbox {
+  margin: 10px 0;
+  min-height: 40px;
+  overflow: auto;
+}
+
+:host ::ng-deep mat-chip-listbox .mdc-evolution-chip-set__chips {
+  flex-flow: nowrap;
+}
+
+.ingredients {
+  min-height: 72px;
+}
+
+.steps {
+  min-height: 144px;
+}
+

@@ -25,10 +25,18 @@ mat-toolbar {
   pointer-events: none;
 }
 
+mat-divider {
+  --mat-divider-color: lightgray;
+}
+
 .credits {
   align-self: center;
   padding-bottom: 12px;
   font-family: "Gotham", sans-serif;
   color: lightgray;
   user-select: none;
+}
+
+#sidenav-content input {
+  display: none;
 }

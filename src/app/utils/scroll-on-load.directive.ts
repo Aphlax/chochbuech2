@@ -2,7 +2,7 @@ import {afterRender, Directive, ElementRef} from '@angular/core';
 
 /** Scrolls the recipe page s.t. 80% of the square image is covered. */
 @Directive({
-  selector: '[ScrollOnLoad]',
+  selector: '[scrollOnLoad]',
   standalone: true
 })
 export class ScrollOnLoadDirective {

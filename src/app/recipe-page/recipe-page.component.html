@@ -1,7 +1,7 @@
 @if (recipe$ | async; as recipe) {
 @if (display$ | async; as display) {
 <div class="image" style="background-image: url('{{recipe.image}}');"></div>
-<div class="card-container" ScrollOnLoad>
+<div class="card-container" scrollOnLoad>
   <div class="card-spacer"></div>
   <div class="card" [ngClass]="{zoom: zoom}" fxLayout="column">
     <div fxLayout="row">
@@ -35,5 +35,10 @@
     <action-string class="notes" [value]="display.notes"></action-string>
   </div>
 </div>
+@if ((app.properties$ | async)?.canEdit) {
+<a class="edit-button" routerLink="/edit/{{recipe.id}}" mat-icon-button aria-label="Edit">
+  <mat-icon>edit</mat-icon>
+</a>
+}
 }
 }

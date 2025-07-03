@@ -5,13 +5,14 @@ import {RecipePageComponent} from "./recipe-page/recipe-page.component";
 import {inject} from "@angular/core";
 import {catchError, EMPTY, forkJoin, map} from "rxjs";
 import {RecipeService} from "./recipe.service";
+import {EditPageComponent} from "./edit-page/edit-page.component";
+import {EMPTY_RECIPE} from "./utils/recipe";
 
 const TABS = [
   {label: 'Menu', category: 'easy'},
   {label: 'Apéro', category: 'starter'},
   {label: 'Dessert', category: 'dessert'},
 ];
-
 export const routes: Routes = [
   {
     path: '',
@@ -30,5 +31,20 @@ export const routes: Routes = [
       recipe: (route: ActivatedRouteSnapshot) =>
         inject(RecipeService).get(route.paramMap.get('id') ?? '').pipe(catchError(() => EMPTY)),
     },
+  },
+  {
+    path: 'edit/:id',
+    component: EditPageComponent,
+    resolve: {
+      recipe: (route: ActivatedRouteSnapshot) =>
+        inject(RecipeService).get(route.paramMap.get('id') ?? '').pipe(catchError(() => EMPTY)),
+    }
+  },
+  {
+    path: 'new',
+    component: EditPageComponent,
+    resolve: {
+      recipe: () => EMPTY_RECIPE,
+    }
   },
 ];

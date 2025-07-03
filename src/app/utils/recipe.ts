@@ -9,6 +9,24 @@ export interface Recipe {
   archived: boolean;
 }
 
+export const EMPTY_RECIPE = {
+  id: undefined,
+  name: '',
+  image: 'images/take-picture.png',
+  ingredients: '',
+  steps: '',
+  category: '',
+  tags: [],
+  archived: false
+} as unknown as Recipe;
+
+export const RECIPE_CATEGORIES = {
+  easy: 'easy',
+  hard: 'hard',
+  dessert: 'dessert',
+  starter: 'starter'
+};
+
 interface IngredientGroup {
   name: string;
   items: string[];

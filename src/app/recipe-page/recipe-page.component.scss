@@ -93,6 +93,11 @@
   outline: none;
 }
 
+.card.zoom .name {
+  font-size: 32px;
+  line-height: 36px;
+}
+
 .card.zoom .ingredient-group-list, .card.zoom .preparation, .card.zoom .step {
   font-size: 24px;
   line-height: 32px;
@@ -101,4 +106,14 @@
 .notes {
   padding-left: 20px;
   padding-bottom: 32px;
+}
+
+.edit-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.edit-button mat-icon {
+  color: white;
 }
