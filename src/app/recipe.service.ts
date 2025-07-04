@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Recipe} from "./utils/recipe";
 import {HttpClient} from "@angular/common/http";
-import {lastValueFrom, map, Observable} from "rxjs";
+import {Observable} from "rxjs";
 
 interface SaveResponse {
   id: number;
@@ -27,9 +27,8 @@ export class RecipeService {
     return this.http.get<Recipe[]>('/listRecipes', {params: {category}});
   }
 
-  save(data: FormData): Promise<SaveResponse> {
-    return lastValueFrom(this.http.post('/save', data)
-      .pipe(map(response => (response as any).data)));
+  save(data: FormData): Observable<SaveResponse> {
+    return this.http.post('/save', data) as Observable<SaveResponse>;
   }
 
   search(query: string): Observable<Recipe[]> {

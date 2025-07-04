@@ -2,7 +2,7 @@ import {Db} from "mongodb";
 import {createRequire} from "module";
 
 const require = createRequire(import.meta.url);
-const Jimp = require('jimp');
+const {Jimp} = require('jimp');
 
 export async function listRecipes(db: Db, category: string) {
   if (category == 'all') {
@@ -94,13 +94,18 @@ export async function saveRecipe(db: Db, body: any, file: any) {
   if (file) {
     const image = await Jimp.read(file.buffer);
 
-    const size = Math.min(image.getHeight(), image.getWidth());
-    await image.crop((image.getWidth() - size) / 2, (image.getHeight() - size) / 2, size, size);
+    const size = Math.min(image.bitmap.width, image.bitmap.height);
+    await image.crop({
+      x: (image.bitmap.width - size) / 2,
+      y: (image.bitmap.height - size) / 2,
+      w: size,
+      h: size,
+    });
     if (size > 600) {
-      await image.resize(600, 600);
+      await image.resize({w: 600, h: 600});
     }
 
-    const buffer = await image.getBufferAsync('image/png');
+    const buffer = await image.getBuffer('image/png');
     await db.collection('images').updateOne(
       {_id: body.id},
       {$set: {data: buffer, mimeType: 'image/png'}},

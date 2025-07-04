@@ -10,12 +10,13 @@ import {ScrollOnLoadDirective} from "../utils/scroll-on-load.directive";
 import {map, Observable} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AppComponent} from "../app.component";
+import {FlexLayoutServerModule} from "@angular/flex-layout/server";
 
 @Component({
   selector: 'recipe-page',
   standalone: true,
-  imports: [FlexLayoutModule, ActionStringComponent, MatIcon, MatIconButton, NgClass, AsyncPipe,
-    ScrollOnLoadDirective, RouterLink],
+  imports: [FlexLayoutModule, FlexLayoutServerModule, ActionStringComponent, MatIcon, MatIconButton,
+    NgClass, AsyncPipe, ScrollOnLoadDirective, RouterLink],
   templateUrl: './recipe-page.component.html',
   styleUrl: './recipe-page.component.scss'
 })

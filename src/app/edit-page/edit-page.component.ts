@@ -13,16 +13,16 @@ import {MatInput} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {PictureInputComponent} from "../picture-input/picture-input.component";
 import {map} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RecipeService} from "../recipe.service";
 
 @Component({
   selector: 'edit-page',
   standalone: true,
-  imports: [FlexLayoutModule, FlexLayoutServerModule, MatIcon, MatRadioButton, MatButtonModule, MatLabel,
-    FormsModule, MatRadioGroup, MatFormField, MatCheckbox, MatChipListbox, AutoHeightDirective, MatInput,
-    PictureInputComponent, MatChipOption,
+  imports: [FlexLayoutServerModule, FlexLayoutModule, FlexLayoutServerModule, MatIcon,
+    MatRadioButton, MatButtonModule, MatLabel, FormsModule, MatRadioGroup, MatFormField,
+    MatCheckbox, MatChipListbox, AutoHeightDirective, MatInput, PictureInputComponent, MatChipOption,
   ],
   templateUrl: './edit-page.component.html',
   styleUrl: './edit-page.component.scss'
@@ -34,7 +34,7 @@ export class EditPageComponent {
   image: string | File = '';
 
   constructor(private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar,
-              private readonly recipeService: RecipeService) {
+              private readonly recipeService: RecipeService, private readonly router: Router) {
     this.route.data.pipe(map(data => data['recipe']))
       .subscribe(recipe => {
         this.recipe = recipe;
@@ -60,10 +60,11 @@ export class EditPageComponent {
       data.append('image', imageData, image.name)
     }
     try {
-      const result = await this.recipeService.save(data);
-      if (!result.offline) {
-        // this.router.navigate('/r', result);
-      }
+      this.recipeService.save(data).subscribe(response => {
+        if (!response.offline) {
+          this.router.navigate(['r', response.id]);
+        }
+      });
     } catch (e: any) {
       this.snackBar.open(e.status == 403 ? 'Zugriff verweigert.' :
           e.status == 500 ? 'Serverfehler.' : `Etwas ging schief (${e.status})`,

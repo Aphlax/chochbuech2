@@ -5,6 +5,7 @@ import {Recipe} from "../utils/recipe";
 import {AsyncPipe} from "@angular/common";
 import {map, Observable} from "rxjs";
 import {MatTabsModule} from "@angular/material/tabs";
+import {FlexLayoutServerModule} from "@angular/flex-layout/server";
 
 interface Tab {
   label: string;
@@ -15,7 +16,7 @@ interface Tab {
 @Component({
   selector: 'start-page',
   standalone: true,
-  imports: [FlexLayoutModule, RouterModule, AsyncPipe, MatTabsModule],
+  imports: [FlexLayoutServerModule, FlexLayoutModule, RouterModule, AsyncPipe, MatTabsModule],
   templateUrl: './start-page.component.html',
   styleUrl: './start-page.component.scss'
 })
