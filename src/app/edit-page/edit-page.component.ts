@@ -42,7 +42,6 @@ export class EditPageComponent {
       });
   }
 
-
   async save(recipe: Recipe, image: string | File) {
     const data = new FormData();
     if (recipe.id) {

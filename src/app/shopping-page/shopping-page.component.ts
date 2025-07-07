@@ -12,6 +12,8 @@ import {
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CookieService} from "ngx-cookie";
 import {BroadcastService} from "../broadcast.service";
+import {Recipe} from "../utils/recipe";
+import {Router} from "@angular/router";
 
 interface ShoppingItem {
   selected: boolean;
@@ -40,10 +42,21 @@ export class ShoppingPageComponent {
   newItemLabel = '';
 
   constructor(private readonly cookieService: CookieService, private readonly snackBar: MatSnackBar,
-              $broadcast: BroadcastService) {
+              $broadcast: BroadcastService, router: Router) {
+    const addRecipe = router.getCurrentNavigation()?.extras.state?.["addRecipe"] as Recipe;
+    if (addRecipe) {
+      this.addRecipeToShopping(addRecipe);
+    }
     this.list = (cookieService.get(COOKIE_NAME) ?? '').split('\n').filter(i => i).map(createItem);
     this.order = this.list.map((s, i) => i);
     $broadcast.shoppingListRemoveDoneEvent.subscribe(() => this.onRemoveDone());
+  }
+
+  addRecipeToShopping(recipe: Recipe) {
+    const shoppingList = (this.cookieService.get(COOKIE_NAME) ?? '') +
+      recipe.ingredients.split('\n').filter(i => i && !i.startsWith('-- '))
+        .map(i => `${i} (${recipe.name})\n`).join('');
+    this.cookieService.put(COOKIE_NAME, shoppingList, COOKIE_OPTIONS);
   }
 
   openNewItem() {

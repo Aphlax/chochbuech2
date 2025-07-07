@@ -4,13 +4,14 @@ import {EventEmitter, Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class BroadcastService {
-
-  constructor() {
-  }
-
   shoppingListRemoveDoneEvent = new EventEmitter();
+  addRecipeToShoppingEvent = new EventEmitter();
 
   shoppingListRemoveDone() {
     this.shoppingListRemoveDoneEvent.emit();
+  }
+
+  addRecipeToShopping() {
+    this.addRecipeToShoppingEvent.emit();
   }
 }

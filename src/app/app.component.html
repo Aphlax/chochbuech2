@@ -37,6 +37,11 @@
         <mat-icon>remove_done</mat-icon>
       </button>
       }
+      @if (router.url.startsWith("/r")) {
+      <button mat-icon-button aria-label="Zur Einkaufsliste hinzufügen" (click)="$broadcast.addRecipeToShopping()">
+        <mat-icon>add_shopping_cart</mat-icon>
+      </button>
+      }
       <button mat-icon-button aria-label="Menu öffnen" (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
