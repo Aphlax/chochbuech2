@@ -32,14 +32,21 @@
       </button>
       <span (click)="router.navigate(['/'])">Chochbuech</span>
       <span fxFlex></span>
-      @if (router.url == "/shopping-list") {
-      <button mat-icon-button aria-label="Entferne selektierte Produkte" (click)="$broadcast.shoppingListRemoveDone()">
-        <mat-icon>remove_done</mat-icon>
-      </button>
+      @if (router.url  == "/") {
+      <a routerLink="/search">
+        <button mat-icon-button aria-label="Suche">
+          <mat-icon>search</mat-icon>
+        </button>
+      </a>
       }
       @if (router.url.startsWith("/r")) {
       <button mat-icon-button aria-label="Zur Einkaufsliste hinzufügen" (click)="$broadcast.addRecipeToShopping()">
         <mat-icon>add_shopping_cart</mat-icon>
+      </button>
+      }
+      @if (router.url == "/shopping-list") {
+      <button mat-icon-button aria-label="Entferne selektierte Produkte" (click)="$broadcast.shoppingListRemoveDone()">
+        <mat-icon>remove_done</mat-icon>
       </button>
       }
       <button mat-icon-button aria-label="Menu öffnen" (click)="sidenav.toggle()">

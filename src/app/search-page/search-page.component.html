@@ -1,0 +1,15 @@
+<input #searchBar type="search" [(ngModel)]="search" (keyup)="debounce.next(search)"
+       (keyup.enter)="immediate.next(search)" placeholder="Suche" fxFlex="none">
+@if (searchResults$ | async; as searchResults) {
+<div class="search-results" fxFlex fxLayout="column">
+  @for (result of searchResults; track result.id) {
+  <div class="result" fxLayout="row">
+    <a class="image" style="background-image: url('{{result.image}}');" routerLink="/r/{{result.id}}" fxFlex="none">
+    </a>
+    <a class="name" routerLink="/r/{{result.id}}">
+      {{result.name}}
+    </a>
+  </div>
+  }
+</div>
+}

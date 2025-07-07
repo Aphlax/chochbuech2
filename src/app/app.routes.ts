@@ -3,11 +3,12 @@ import {StartPageComponent} from "./start-page/start-page.component";
 import {ShoppingPageComponent} from "./shopping-page/shopping-page.component";
 import {RecipePageComponent} from "./recipe-page/recipe-page.component";
 import {inject} from "@angular/core";
-import {catchError, EMPTY, forkJoin, map, tap} from "rxjs";
+import {forkJoin, map, tap} from "rxjs";
 import {RecipeService} from "./recipe.service";
 import {EditPageComponent} from "./edit-page/edit-page.component";
 import {EMPTY_RECIPE} from "./utils/recipe";
 import {CookieService} from "ngx-cookie";
+import {SearchPageComponent} from "./search-page/search-page.component";
 
 const HISTORY_COOKIE = 'history';
 const HISTORY_RETENTION_MS = 1000 * 60 * 60 * 24 * 14; // 14 days.
@@ -47,12 +48,13 @@ export const routes: Routes = [
       },
     },
   },
+  {path: 'search', component: SearchPageComponent},
   {
     path: 'edit/:id',
     component: EditPageComponent,
     resolve: {
       recipe: (route: ActivatedRouteSnapshot) =>
-        inject(RecipeService).get(route.paramMap.get('id') ?? '').pipe(catchError(() => EMPTY)),
+        inject(RecipeService).get(route.paramMap.get('id') ?? ''),
     }
   },
   {

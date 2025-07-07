@@ -36,8 +36,10 @@
   </div>
 </div>
 @if ((app.properties$ | async)?.canEdit) {
-<a class="edit-button" routerLink="/edit/{{recipe.id}}" mat-icon-button aria-label="Edit">
-  <mat-icon>edit</mat-icon>
+<a class="edit-button" routerLink="/edit/{{recipe.id}}">
+  <button mat-icon-button aria-label="Edit">
+    <mat-icon>edit</mat-icon>
+  </button>
 </a>
 }
 }

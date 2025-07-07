@@ -20,9 +20,9 @@ import {RecipeService} from "../recipe.service";
 @Component({
   selector: 'edit-page',
   standalone: true,
-  imports: [FlexLayoutServerModule, FlexLayoutModule, FlexLayoutServerModule, MatIcon,
-    MatRadioButton, MatButtonModule, MatLabel, FormsModule, MatRadioGroup, MatFormField,
-    MatCheckbox, MatChipListbox, AutoHeightDirective, MatInput, PictureInputComponent, MatChipOption,
+  imports: [FlexLayoutServerModule, FlexLayoutModule, MatIcon, FormsModule,
+    MatRadioButton, MatButtonModule, MatLabel, MatRadioGroup, MatFormField, MatChipOption,
+    MatCheckbox, MatChipListbox, AutoHeightDirective, MatInput, PictureInputComponent,
   ],
   templateUrl: './edit-page.component.html',
   styleUrl: './edit-page.component.scss'

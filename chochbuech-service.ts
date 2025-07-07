@@ -52,7 +52,7 @@ export async function searchRecipes(db: Db, query: string) {
     {
       $search: {
         index: 'autocomplete-de',
-        autocomplete: {path: 'name', query: query, fuzzy: {maxEdits: 1, prefixLength: 2}},
+        autocomplete: {path: 'name', query: query, fuzzy: {maxEdits: 1, prefixLength: 1}},
       }
     },
     {$set: {id: "$_id"}},
@@ -95,12 +95,14 @@ export async function saveRecipe(db: Db, body: any, file: any) {
     const image = await Jimp.read(file.buffer);
 
     const size = Math.min(image.bitmap.width, image.bitmap.height);
-    await image.crop({
-      x: (image.bitmap.width - size) / 2,
-      y: (image.bitmap.height - size) / 2,
-      w: size,
-      h: size,
-    });
+    if (image.bitmap.width != image.bitmap.height) {
+      await image.crop({
+        x: (image.bitmap.width - size) / 2,
+        y: (image.bitmap.height - size) / 2,
+        w: size,
+        h: size,
+      });
+    }
     if (size > 600) {
       await image.resize({w: 600, h: 600});
     }
