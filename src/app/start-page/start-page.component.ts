@@ -13,6 +13,12 @@ interface Tab {
   recipes: Recipe[];
 }
 
+interface HistoryItem {
+  id: number;
+  image: string;
+  time: number;
+}
+
 @Component({
   selector: 'start-page',
   standalone: true,
@@ -22,8 +28,10 @@ interface Tab {
 })
 export class StartPageComponent {
   tabs$: Observable<Tab[]>;
+  history$: Observable<HistoryItem[]>;
 
   constructor(private readonly route: ActivatedRoute) {
     this.tabs$ = route.data.pipe(map(data => data['tabs']));
+    this.history$ = route.data.pipe(map(data => data['history']));
   }
 }

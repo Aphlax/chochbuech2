@@ -3,10 +3,14 @@ import {StartPageComponent} from "./start-page/start-page.component";
 import {ShoppingPageComponent} from "./shopping-page/shopping-page.component";
 import {RecipePageComponent} from "./recipe-page/recipe-page.component";
 import {inject} from "@angular/core";
-import {catchError, EMPTY, forkJoin, map} from "rxjs";
+import {catchError, EMPTY, forkJoin, map, tap} from "rxjs";
 import {RecipeService} from "./recipe.service";
 import {EditPageComponent} from "./edit-page/edit-page.component";
 import {EMPTY_RECIPE} from "./utils/recipe";
+import {CookieService} from "ngx-cookie";
+
+const HISTORY_COOKIE = 'history';
+const HISTORY_RETENTION_MS = 1000 * 60 * 60 * 24 * 14; // 14 days.
 
 const TABS = [
   {label: 'Menu', category: 'easy'},
@@ -21,6 +25,8 @@ export const routes: Routes = [
     resolve: {
       tabs: () => forkJoin(TABS.map(tab => inject(RecipeService).list(tab.category)))
         .pipe(map(recipess => TABS.map((tab, i) => ({...tab, recipes: recipess[i]})))),
+      history: () => JSON.parse(inject(CookieService).get(HISTORY_COOKIE) ?? "[]").filter((e: any) =>
+        e.time > new Date().getTime() - HISTORY_RETENTION_MS),
     },
   },
   {path: 'shopping-list', component: ShoppingPageComponent},
@@ -28,8 +34,17 @@ export const routes: Routes = [
     path: 'r/:id',
     component: RecipePageComponent,
     resolve: {
-      recipe: (route: ActivatedRouteSnapshot) =>
-        inject(RecipeService).get(route.paramMap.get('id') ?? '').pipe(catchError(() => EMPTY)),
+      recipe: (route: ActivatedRouteSnapshot) => {
+        const COOKIES = inject(CookieService);
+        return inject(RecipeService).get(route.paramMap.get('id') ?? '').pipe(tap(recipe => {
+          const history = JSON.parse(COOKIES.get(HISTORY_COOKIE) ?? "[]").filter((e: any) =>
+            e.id != recipe.id && e.time > new Date().getTime() - HISTORY_RETENTION_MS);
+          const entry = {id: recipe.id, image: recipe.image, time: new Date().getTime()};
+          const newHistory = JSON.stringify([entry, ...history].slice(0, 12));
+          const options = {expires: new Date(new Date().setDate(new Date().getDate() + 30))};
+          COOKIES.put(HISTORY_COOKIE, newHistory, options);
+        }));
+      },
     },
   },
   {

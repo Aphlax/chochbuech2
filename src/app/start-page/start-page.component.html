@@ -1,3 +1,11 @@
+@if ((history$ | async)?.length) {
+<div class="history" fxFlex="none" fxLayout="row">
+  @for (entry of history$ | async; track entry.id) {
+  <a class="entry" style="background-image: url('{{entry.image}}');" routerLink="r/{{entry.id}}">
+  </a>
+  }
+</div>
+}
 <mat-tab-group fxFlex>
   @for (tab of tabs$ | async; track tab.category) {
   <mat-tab [label]="tab.label">

@@ -25,8 +25,11 @@
 
 .edit-button {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
+}
+
+.edit-button mat-icon {
   color: white;
 }
 
@@ -106,14 +109,4 @@
 .notes {
   padding-left: 20px;
   padding-bottom: 32px;
-}
-
-.edit-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.edit-button mat-icon {
-  color: white;
 }
