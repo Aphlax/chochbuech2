@@ -12,6 +12,30 @@ input {
   font-size: 24px;
 }
 
+.loading-container {
+  position: relative;
+  height: 0;
+}
+
+.loading-indicator {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 30px);
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  background-color: white;
+  border: 1px solid lightgrey;
+  pointer-events: none;
+  transition: top 0.15s ease-out, opacity 0.1s linear;
+  opacity: 0;
+}
+
+.loading-indicator.show {
+  top: 20px;
+  opacity: 1;
+}
+
 .search-results {
   overflow: auto;
 }

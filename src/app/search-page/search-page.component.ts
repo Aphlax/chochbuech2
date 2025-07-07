@@ -5,24 +5,41 @@ import {Recipe} from "../utils/recipe";
 import {FormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {RecipeService} from "../recipe.service";
-import {debounceTime, distinctUntilChanged, Observable, of, race, Subject, take} from "rxjs";
-import {AsyncPipe} from "@angular/common";
+import {
+  concat,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  of,
+  race,
+  Subject,
+  take
+} from "rxjs";
+import {AsyncPipe, NgClass} from "@angular/common";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+
+interface SearchCache {
+  results: Recipe[];
+  loading: boolean;
+}
 
 @Component({
   selector: 'search-page',
   standalone: true,
   imports: [
     FlexLayoutServerModule, FlexLayoutModule, FormsModule, RouterLink, AsyncPipe,
+    MatProgressSpinner, NgClass,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss'
 })
 export class SearchPageComponent implements AfterViewInit {
   @ViewChild('searchBar') readonly searchBar?: ElementRef;
-  search: string = '';
+  value: string = '';
   debounce = new Subject<string>();
   immediate = new Subject<string>();
-  searchResults$: Observable<Recipe[]> = of([]);
+  search$: Observable<SearchCache> = of({results: [], loading: false});
 
   constructor(private readonly recipeService: RecipeService) {
     this.listenSearchChange();
@@ -33,7 +50,15 @@ export class SearchPageComponent implements AfterViewInit {
       .pipe(take(1))
       .subscribe({
         next: (search: string) => {
-          this.searchResults$ = !search.length ? of([]) : this.recipeService.search(search);
+          if (!search.length) {
+            this.search$ = of({results: [], loading: false});
+          } else {
+            this.search$ = concat(this.search$.pipe(take(1), map(cache => ({
+                ...cache,
+                loading: true,
+              }))),
+              this.recipeService.search(search).pipe(map(results => ({results, loading: false}))));
+          }
         },
         complete: () => this.listenSearchChange(),
       });

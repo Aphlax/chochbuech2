@@ -1,8 +1,14 @@
-<input #searchBar type="search" [(ngModel)]="search" (keyup)="debounce.next(search)"
-       (keyup.enter)="immediate.next(search)" placeholder="Suche" fxFlex="none">
-@if (searchResults$ | async; as searchResults) {
+<input #searchBar type="search" [(ngModel)]="value" (keyup)="debounce.next(value)"
+       (keyup.enter)="immediate.next(value)" placeholder="Suche" fxFlex="none">
+@if (search$ | async; as search) {
+<div class="loading-container">
+  <div class="loading-indicator" [ngClass]="{show: search.loading}"
+       fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
+</div>
 <div class="search-results" fxFlex fxLayout="column">
-  @for (result of searchResults; track result.id) {
+  @for (result of search.results; track result.id) {
   <div class="result" fxLayout="row">
     <a class="image" style="background-image: url('{{result.image}}');" routerLink="/r/{{result.id}}" fxFlex="none">
     </a>
