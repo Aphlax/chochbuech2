@@ -4,6 +4,9 @@ import {createRequire} from "module";
 const require = createRequire(import.meta.url);
 const {Jimp} = require('jimp');
 
+// https://www.mongodb.com/docs/manual/reference/command/aggregate/
+
+
 export async function listRecipes(db: Db, category: string) {
   if (category == 'all') {
     return await db.collection('recipes').aggregate([
@@ -11,11 +14,17 @@ export async function listRecipes(db: Db, category: string) {
     ]).toArray();
   }
 
+  let limit = 10;
+  if (category == 'menu') {
+    category = {$in: ['easy', 'hard']} as any;
+    limit = 40;
+  }
+
   return await db.collection('recipes').aggregate([
     {$match: {category, archived: false}},
     {$set: {order: {$rand: {}}, id: "$_id"}},
     {$sort: {order: 1}},
-    {$limit: 10},
+    {$limit: limit},
     {$project: {order: 0, _id: 0}},
   ]).toArray();
 }
@@ -24,7 +33,7 @@ const TAGS = [
   {value: 'Vegetarisch', synonyms: ['vegetarisch', 'vegi', 'vegan', 'vegetarian']},
   {value: 'Fisch', synonyms: ['fisch', 'fish']},
   {value: 'Fleisch', synonyms: ['fleisch', 'meat']},
-  {value: 'Pasta', synonyms: ['pasta']},
+  {value: 'Pasta', synonyms: ['pasta', 'nudeln', 'noodle']},
   {value: 'Reis', synonyms: ['reis', 'rice']},
   {value: 'Asiatisch', synonyms: ['asiatisch', 'asian', 'asia', 'chinesisch']}
 ];

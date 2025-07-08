@@ -30,7 +30,7 @@ export async function ChochbuechServer(server: express.Express) {
 
   server.get('/listRecipes', async function (req, res) {
     const category = req.query['category'] as string;
-    if (!['easy', 'hard', 'dessert', 'starter', 'all'].includes(category))
+    if (!['easy', 'hard', 'menu', 'dessert', 'starter', 'all'].includes(category))
       res.sendStatus(400);
     else
       res.json(await listRecipes(db, category));

@@ -7,29 +7,26 @@
       <input matInput class="name" type="text" [(ngModel)]="recipe.name" fxFlex>
     </mat-form-field>
     <mat-radio-group [(ngModel)]="recipe.category" fxFlex fxLayout="row">
-      <mat-radio-button [value]="CATEGORY.easy" color="primary">
+      <mat-radio-button [value]="CATEGORY.easy" color="primary" aria-label="einfach">
         <mat-icon>dinner_dining</mat-icon>
       </mat-radio-button>
-      <mat-radio-button [value]="CATEGORY.hard" color="primary">
+      <mat-radio-button [value]="CATEGORY.hard" color="primary" aria-label="schwierig">
         <mat-icon>brunch_dining</mat-icon>
       </mat-radio-button>
-      <mat-radio-button [value]="CATEGORY.starter" color="primary">
+      <mat-radio-button [value]="CATEGORY.starter" color="primary" aria-label="apéro">
         <mat-icon>tapas</mat-icon>
       </mat-radio-button>
-      <mat-radio-button [value]="CATEGORY.dessert" color="primary">
+      <mat-radio-button [value]="CATEGORY.dessert" color="primary" aria-label="dessert">
         <mat-icon>icecream</mat-icon>
       </mat-radio-button>
     </mat-radio-group>
   </div>
 </div>
-<mat-chip-listbox multiple aria-label="Tag selection">
+<mat-chip-listbox multiple [(ngModel)]="recipe.tags">
   @for (tag of TAGS; track $index) {
-  <mat-chip-option>
-  {{tag}}
-  <button matChipRemove [attr.aria-label]="'remove ' + tag">
-    <mat-icon>cancel</mat-icon>
-  </button>
-</mat-chip-option>
+  <mat-chip-option [value]="tag" [aria-label]="tag">
+    {{tag}}
+  </mat-chip-option>
   }
 </mat-chip-listbox>
 <mat-form-field>

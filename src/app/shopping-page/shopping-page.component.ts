@@ -35,6 +35,7 @@ const COOKIE_OPTIONS = {expires: new Date(new Date().setFullYear(new Date().getF
   styleUrl: './shopping-page.component.scss',
 })
 export class ShoppingPageComponent {
+  // noinspection JSAnnotator; element is behind an @if, messing up the inspection.
   @ViewChild('newItemInput') newItemInput?: ElementRef;
   list: ShoppingItem[];
   order: number[];
@@ -103,7 +104,11 @@ export class ShoppingPageComponent {
   }
 
   onRemoveDone() {
-    this.list = this.list.filter(i => !i.selected);
+    const list = this.order.map(i => this.list[i]).filter(i => !i.selected);
+    this.list = [];
+    setTimeout(() => {
+      this.list = list;
+    }, 0);
   }
 }
 

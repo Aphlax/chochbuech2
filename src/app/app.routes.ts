@@ -14,7 +14,7 @@ const HISTORY_COOKIE = 'history';
 const HISTORY_RETENTION_MS = 1000 * 60 * 60 * 24 * 14; // 14 days.
 
 const TABS = [
-  {label: 'Menu', category: 'easy'},
+  {label: 'Menu', category: 'menu'},
   {label: 'Apéro', category: 'starter'},
   {label: 'Dessert', category: 'dessert'},
 ];
