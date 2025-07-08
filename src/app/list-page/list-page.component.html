@@ -1,0 +1,20 @@
+@if (list$ | async; as list) {
+@for (item of list; track item.id) {
+<div class="recipe" fxFlex="none" fxLayout="row" fxLayoutAlign="stretch center">
+  <div class="image" style="background-image: url('{{item.image}}');" routerLink="/r/{{item.id}}" fxFlex="none">
+    @if (item.archived) {
+    <mat-icon class="archived">archive</mat-icon>
+    }
+  </div>
+  <div routerLink="/r/{{item.id}}" fxFlex fxLayout="column">
+    <span class="name">{{item.name}}</span>
+    <span class="id">/{{item.id}}</span>
+  </div>
+  <a routerLink="/edit/{{item.id}}" fxFlex="none">
+    <button mat-icon-button>
+      <mat-icon>edit</mat-icon>
+    </button>
+  </a>
+</div>
+}
+}

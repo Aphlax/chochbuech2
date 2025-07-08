@@ -1,4 +1,4 @@
-import {ActivatedRouteSnapshot, ResolveFn, Routes} from '@angular/router';
+import {ActivatedRouteSnapshot, Routes} from '@angular/router';
 import {StartPageComponent} from "./start-page/start-page.component";
 import {ShoppingPageComponent} from "./shopping-page/shopping-page.component";
 import {RecipePageComponent} from "./recipe-page/recipe-page.component";
@@ -9,6 +9,7 @@ import {EditPageComponent} from "./edit-page/edit-page.component";
 import {EMPTY_RECIPE} from "./utils/recipe";
 import {CookieService} from "ngx-cookie";
 import {SearchPageComponent} from "./search-page/search-page.component";
+import {ListPageComponent} from "./list-page/list-page.component";
 
 const HISTORY_COOKIE = 'history';
 const HISTORY_RETENTION_MS = 1000 * 60 * 60 * 24 * 14; // 14 days.
@@ -49,6 +50,11 @@ export const routes: Routes = [
     },
   },
   {path: 'search', component: SearchPageComponent},
+  {
+    path: 'all', component: ListPageComponent, resolve: {
+      list: () => inject(RecipeService).list('all'),
+    }
+  },
   {
     path: 'edit/:id',
     component: EditPageComponent,
