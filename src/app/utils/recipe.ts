@@ -7,6 +7,7 @@ export interface Recipe {
   category: string;
   tags: string[];
   archived: boolean;
+  author?: string;
 }
 
 export const EMPTY_RECIPE = {
@@ -17,7 +18,7 @@ export const EMPTY_RECIPE = {
   steps: '',
   category: '',
   tags: [],
-  archived: false
+  archived: false,
 } as unknown as Recipe;
 
 export const RECIPE_CATEGORIES = {
@@ -46,8 +47,8 @@ export interface RecipeDisplay {
 }
 
 export function recipeDisplay(recipe: Recipe): RecipeDisplay {
-  const ingredientGroups = recipe.ingredients.split('-- ').map((g, i) => g ? ({
-    name: i ? g.substring(0, g.indexOf('\n')) : '',
+  const ingredientGroups = recipe.ingredients.split('--').map((g, i) => g ? ({
+    name: i ? g.substring(0, g.indexOf('\n')).trim() : '',
     items: g.split('\n').filter((item, j) => item && (!i || j)),
   }) : undefined).filter((g): g is IngredientGroup => !!g);
 

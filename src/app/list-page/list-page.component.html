@@ -8,7 +8,7 @@
   </div>
   <div class="info" routerLink="/r/{{item.id}}" fxFlex fxLayout="column">
     <span class="name">{{item.name}}</span>
-    <span class="id">r/{{item.id}} · {{item.category}} · {{item.tags.join(', ')}}</span>
+    <span class="id">r/{{item.id}} · {{item.category}}{{(item.tags.length ? ' · ' : '') + item.tags.join(', ')}}</span>
   </div>
   <a routerLink="/edit/{{item.id}}" fxFlex="none">
     <button mat-icon-button>

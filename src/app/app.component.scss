@@ -6,6 +6,7 @@ mat-sidenav-container, #sidenav-content, #page-content {
 mat-toolbar {
   flex: none;
   z-index: 1;
+  padding-left: 4px;
 }
 
 #app-icon-big {

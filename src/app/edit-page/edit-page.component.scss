@@ -3,24 +3,23 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
+  padding: 0 8px;
 }
 
 .image {
   height: 150px;
   width: 150px;
-  border-radius: 8px;
+  border-radius: 8px 0 8px 8px;
   cursor: pointer;
 }
 
-.name {
-  padding-top: 24px;
-  padding-left: 10px;
+:host ::ng-deep .name .mat-mdc-text-field-wrapper {
+  border-top-left-radius: 0;
 }
 
 mat-radio-button {
   display: block;
   position: relative;
-  margin: 0 10px;
   width: 40px;
   height: 40px;
   --mdc-radio-selected-icon-color: cornflowerblue;
@@ -57,13 +56,22 @@ mat-radio-button mat-icon {
 }
 
 mat-chip-listbox {
-  margin: 10px 0;
+  margin: 10px -8px 10px 0;
   min-height: 40px;
   overflow: auto;
+  scrollbar-width: none;
 }
 
 :host ::ng-deep mat-chip-listbox .mdc-evolution-chip-set__chips {
   flex-flow: nowrap;
+  margin-right: 8px;
+}
+
+mat-label mat-icon {
+  width: 22px;
+  height: 18px;
+  font-size: 22px;
+  line-height: 18px;
 }
 
 .ingredients {

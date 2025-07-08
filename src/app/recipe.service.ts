@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Recipe} from "./utils/recipe";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 
 interface SaveResponse {
   id: number;
@@ -20,6 +20,7 @@ export class RecipeService {
   }
 
   get(id: string): Observable<Recipe> {
+    if (id.length > 4) return of(null as unknown as Recipe);
     return this.http.get<Recipe>('/recipe/recipe' + id);
   }
 

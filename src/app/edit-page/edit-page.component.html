@@ -2,11 +2,11 @@
   <picture-input class="image" [(image)]="image">
   </picture-input>
   <div fxFlex fxLayout="column">
-    <mat-form-field>
+    <mat-form-field class="name">
       <mat-label>Name</mat-label>
-      <input matInput class="name" type="text" [(ngModel)]="recipe.name" fxFlex>
+      <input matInput type="text" [(ngModel)]="recipe.name" fxFlex>
     </mat-form-field>
-    <mat-radio-group [(ngModel)]="recipe.category" fxFlex fxLayout="row">
+    <mat-radio-group [(ngModel)]="recipe.category" fxFlex fxLayout="row" fxLayoutAlign="space-around center">
       <mat-radio-button [value]="CATEGORY.easy" color="primary" aria-label="einfach">
         <mat-icon>dinner_dining</mat-icon>
       </mat-radio-button>
@@ -30,17 +30,45 @@
   }
 </mat-chip-listbox>
 <mat-form-field>
-  <mat-label>Zutaten</mat-label>
+  <mat-label>
+    Zutaten
+    <mat-icon [matTooltip]="INGREDIENTS_TOOLTIP" matTooltipClass="icon-tooltip" #tt1="matTooltip" (click)="tt1.show()">
+      info_outline
+    </mat-icon>
+  </mat-label>
   <textarea matInput class="ingredients" [(ngModel)]="recipe.ingredients" autoHeight fxFlex="none">
   </textarea>
 </mat-form-field>
 <mat-form-field>
-  <mat-label>Rezept</mat-label>
+  <mat-label>
+    Rezept
+    <mat-icon [matTooltip]="RECIPE_TOOLTIP" matTooltipClass="icon-tooltip" #tt2="matTooltip" (click)="tt2.show()">
+      info_outline
+    </mat-icon>
+  </mat-label>
   <textarea matInput class="steps" [(ngModel)]="recipe.steps" autoHeight fxFlex="none"></textarea>
 </mat-form-field>
+<mat-form-field>
+  <mat-label>{{(app.properties$ | async)?.canEdit ? 'Author' : 'Dein Name'}}</mat-label>
+  <input matInput type="text" [(ngModel)]="recipe.author" fxFlex="none">
+</mat-form-field>
+@if ((app.properties$ | async)?.canEdit) {
 <mat-checkbox [(ngModel)]="recipe.archived">Archived</mat-checkbox>
 <span style="min-height: 20px"></span>
-<button mat-button="filled" [disabled]="!saveEnabled(recipe)" (click)="save(recipe, image)">
-  Speichern
-</button>
+}
+@else {
+<p>
+Gerne nehme ich deinen Rezeptvorschlag entgegen. Bitte alle Felder ausfüllen und ein Bild
+hinzufügen, dann den Vorschlag einreichen. Ich werde das Rezept prüfen und freischalten.
+</p>
+}
+<div fxLayout="row">
+  <button mat-stroked-button routerLink="/" fxFlex>
+    Zurück
+  </button>
+  <div style="width: 20px" fxFlex="none"></div>
+  <button mat-flat-button [disabled]="!saveEnabled(recipe, image)" (click)="save(recipe, image)" fxFlex>
+    {{(app.properties$ | async)?.canEdit ? 'Speichern' : 'Vorschlag Einreichen'}}
+  </button>
+</div>
 <span style="min-height: 40px"></span>

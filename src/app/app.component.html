@@ -7,22 +7,25 @@
           <mat-icon matListItemIcon fontIcon="dinner_dining"/>
           <span matListItemTitle>Rezepte</span>
         </a>
-        @if ((properties$ | async)?.canEdit) {
-        <mat-divider></mat-divider>
-        <a mat-list-item routerLink="/new">
-          <mat-icon matListItemIcon fontIcon="add"/>
-          <span matListItemTitle>Neues Rezept</span>
-        </a>
-        <a mat-list-item routerLink="/all">
-          <mat-icon matListItemIcon fontIcon="list"/>
-          <span matListItemTitle>Alle Rezepte</span>
-        </a>
-        <mat-divider></mat-divider>
-        }
         <a mat-list-item routerLink="/shopping-list">
           <mat-icon matListItemIcon fontIcon="shopping_cart"/>
           <span matListItemTitle>Einkaufs-Liste</span>
         </a>
+        <a mat-list-item routerLink="/search">
+          <mat-icon matListItemIcon fontIcon="search"/>
+          <span matListItemTitle>Suchen</span>
+        </a>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="/new">
+          <mat-icon matListItemIcon fontIcon="add"/>
+          <span matListItemTitle>{{(properties$ | async)?.canEdit ? 'Neues Rezept' : 'Rezept Vorschlagen'}}</span>
+        </a>
+        @if ((properties$ | async)?.canEdit) {
+        <a mat-list-item routerLink="/all">
+          <mat-icon matListItemIcon fontIcon="list"/>
+          <span matListItemTitle>Alle Rezepte</span>
+        </a>
+        }
       </mat-list>
       <span fxFlex></span>
       <span class="credits">s&#8217;Chochbuech vom Fabian</span>
