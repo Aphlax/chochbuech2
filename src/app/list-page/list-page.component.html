@@ -6,9 +6,9 @@
     <mat-icon class="archived">archive</mat-icon>
     }
   </div>
-  <div routerLink="/r/{{item.id}}" fxFlex fxLayout="column">
+  <div class="info" routerLink="/r/{{item.id}}" fxFlex fxLayout="column">
     <span class="name">{{item.name}}</span>
-    <span class="id">/{{item.id}}</span>
+    <span class="id">r/{{item.id}} · {{item.category}} · {{item.tags.join(', ')}}</span>
   </div>
   <a routerLink="/edit/{{item.id}}" fxFlex="none">
     <button mat-icon-button>
