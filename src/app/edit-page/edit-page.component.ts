@@ -7,7 +7,7 @@ import {MatChipListbox, MatChipOption} from "@angular/material/chips";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {AutoHeightDirective} from "../utils/auto-height.directive";
-import {EMPTY_RECIPE, Recipe, RECIPE_CATEGORIES} from "../utils/recipe";
+import {EMPTY_RECIPE, Recipe, RECIPE_CATEGORIES, recipeDisplay} from "../utils/recipe";
 import {MatButtonModule} from '@angular/material/button';
 import {MatInput} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
@@ -19,6 +19,7 @@ import {RecipeService} from "../recipe.service";
 import {AppComponent} from "../app.component";
 import {AsyncPipe} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
+import {ActionStringComponent} from "../action-string/action-string.component";
 
 const RECIPE_TOOLTIP = `Formatierung:
 · Erste Linie kann mit "Vorbereitung:" starten.
@@ -34,7 +35,8 @@ const INGREDIENTS_TOOLTIP = `Formatierung:
   standalone: true,
   imports: [FlexLayoutServerModule, FlexLayoutModule, MatIcon, FormsModule, AsyncPipe,
     MatRadioButton, MatButtonModule, MatLabel, MatRadioGroup, MatFormField, MatChipOption,
-    MatCheckbox, MatChipListbox, AutoHeightDirective, MatInput, PictureInputComponent, RouterLink, MatTooltip,
+    MatCheckbox, MatChipListbox, AutoHeightDirective, MatInput, PictureInputComponent, RouterLink,
+    MatTooltip, ActionStringComponent,
   ],
   templateUrl: './edit-page.component.html',
   styleUrl: './edit-page.component.scss'
@@ -46,6 +48,7 @@ export class EditPageComponent {
   readonly TAGS = ['Vegetarisch', 'Fisch', 'Fleisch', 'Pasta', 'Reis', 'Asiatisch'];
   recipe: Recipe = EMPTY_RECIPE;
   image: string | File = '';
+  preview = false;
 
   constructor(private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar,
               private readonly recipeService: RecipeService, private readonly router: Router,
@@ -92,5 +95,9 @@ export class EditPageComponent {
       image && recipe.name &&
       recipe.ingredients && recipe.steps && recipe.category &&
       (recipe.id || image instanceof File));
+  }
+
+  get display() {
+    return recipeDisplay(this.recipe);
   }
 }

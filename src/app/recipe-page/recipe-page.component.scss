@@ -96,6 +96,11 @@
   outline: none;
 }
 
+.notes {
+  padding-left: 20px;
+  padding-bottom: 32px;
+}
+
 .card.zoom .name {
   font-size: 32px;
   line-height: 36px;
@@ -109,9 +114,4 @@
 .card.zoom .ingredient-group-name {
   margin: 4px 16px -6px;
   font-size: 22px;
-}
-
-.notes {
-  padding-left: 20px;
-  padding-bottom: 32px;
 }

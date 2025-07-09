@@ -48,6 +48,39 @@
   </mat-label>
   <textarea matInput class="steps" [(ngModel)]="recipe.steps" autoHeight fxFlex="none"></textarea>
 </mat-form-field>
+<button mat-stroked-button (click)="preview = !preview">
+  {{preview ? 'Vorschau schliessen' : 'Vorschau'}}
+</button>
+<div class="preview {{preview ? 'show' : ''}}">
+  <div class="card-preview" fxLayout="column">
+    <div fxLayout="row">
+      <span class="name" fxFlex>{{recipe.name}}</span>
+    </div>
+    @for (group of display.ingredientGroups; track $index) {
+    @if (group.name) {
+    <span class="ingredient-group-name">{{group.name}}</span>
+    }
+    <ul class="ingredient-group-list">
+      @for (item of group.items; track $index) {
+      <li>{{item}}</li>
+      }
+    </ul>
+    }
+    @if (display.preparation) {
+    <div class="preparation">
+      <b>Vorbereitung:</b> {{display.preparation}}
+    </div>
+    }
+    <ol class="steps">
+      @for (step of display.steps; track $index) {
+      <li class="step">
+        {{step}}
+      </li>
+      }
+    </ol>
+    <action-string class="notes" [value]="display.notes"></action-string>
+  </div>
+</div>
 <mat-form-field>
   <mat-label>{{(app.properties$ | async)?.canEdit ? 'Author' : 'Dein Name'}}</mat-label>
   <input matInput type="text" [(ngModel)]="recipe.author" fxFlex="none">
