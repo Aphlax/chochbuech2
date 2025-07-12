@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Recipe} from "./utils/recipe";
 import {HttpClient} from "@angular/common/http";
-import {Observable, of} from "rxjs";
+import {Observable, of, tap} from "rxjs";
 
 interface SaveResponse {
   id: number;
@@ -12,10 +12,14 @@ export interface Properties {
   canEdit: boolean;
 }
 
+const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes.
+
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
+  private listCache = new Map<string, { data: Recipe[], timestamp: number }>();
+
   constructor(private http: HttpClient) {
   }
 
@@ -25,7 +29,14 @@ export class RecipeService {
   }
 
   list(category: string): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>('/listRecipes', {params: {category}});
+    const cached = this.listCache.get(category);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      return of(cached.data);
+    }
+
+    return this.http.get<Recipe[]>('/listRecipes', {params: {category}}).pipe(
+      tap(items => this.listCache.set(category, {data: items, timestamp: Date.now()}))
+    );
   }
 
   save(data: FormData): Observable<SaveResponse> {
