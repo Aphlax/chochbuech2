@@ -67,7 +67,7 @@ export const routes: Routes = [
     path: 'new',
     component: EditPageComponent,
     resolve: {
-      recipe: () => EMPTY_RECIPE,
+      recipe: EMPTY_RECIPE,
     }
   },
 ];

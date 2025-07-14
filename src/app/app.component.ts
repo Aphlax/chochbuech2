@@ -10,8 +10,7 @@ import {MatListModule} from "@angular/material/list";
 import {FlexLayoutServerModule} from "@angular/flex-layout/server";
 import {BroadcastService} from "./broadcast.service";
 import {CookieService} from "ngx-cookie";
-import {Properties, RecipeService} from "./recipe.service";
-import {Observable} from "rxjs";
+import {Properties, PropertiesService} from "./utils/properties-service";
 
 @Component({
   selector: 'app-root',
@@ -24,11 +23,10 @@ import {Observable} from "rxjs";
 export class AppComponent {
   @ViewChild('adminInput') readonly adminInput?: ElementRef;
   adminCount = 0;
-  properties$: Observable<Properties>;
 
   constructor(public readonly router: Router, public readonly $broadcast: BroadcastService,
-              private readonly cookieService: CookieService, recipeService: RecipeService) {
-    this.properties$ = recipeService.properties();
+              private readonly cookieService: CookieService,
+              public readonly properties: PropertiesService) {
   }
 
   admin() {

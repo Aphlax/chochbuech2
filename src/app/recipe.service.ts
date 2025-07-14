@@ -8,10 +8,6 @@ interface SaveResponse {
   offline: boolean;
 }
 
-export interface Properties {
-  canEdit: boolean;
-}
-
 const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes.
 
 @Injectable({
@@ -45,9 +41,5 @@ export class RecipeService {
 
   search(query: string): Observable<Recipe[]> {
     return this.http.get<Recipe[]>('/look', {params: {'for': query}});
-  }
-
-  properties(): Observable<Properties> {
-    return this.http.get<Properties>('/properties');
   }
 }

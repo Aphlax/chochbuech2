@@ -16,10 +16,10 @@ import {map} from "rxjs";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RecipeService} from "../recipe.service";
-import {AppComponent} from "../app.component";
 import {AsyncPipe} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {ActionStringComponent} from "../action-string/action-string.component";
+import {PropertiesService} from "../utils/properties-service";
 
 const RECIPE_TOOLTIP = `Formatierung:
 · Erste Linie kann mit "Vorbereitung:" starten.
@@ -46,22 +46,31 @@ export class EditPageComponent {
   readonly RECIPE_TOOLTIP = RECIPE_TOOLTIP;
   readonly INGREDIENTS_TOOLTIP = INGREDIENTS_TOOLTIP;
   readonly TAGS = ['Vegetarisch', 'Fisch', 'Fleisch', 'Pasta', 'Reis', 'Asiatisch'];
-  recipe: Recipe = EMPTY_RECIPE;
+  recipe: Recipe = EMPTY_RECIPE();
   image: string | File = '';
+  mode: string = '';
   preview = false;
 
   constructor(private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar,
               private readonly recipeService: RecipeService, private readonly router: Router,
-              public readonly app: AppComponent) {
-    this.route.data.pipe(map(data => data['recipe']))
-      .subscribe(recipe => {
-        this.recipe = recipe;
-        this.image = recipe.image;
-      });
+              public readonly properties: PropertiesService) {
+    if (this.properties.get().canEdit) {
+      this.route.data.pipe(map(data => data['recipe']))
+        .subscribe(recipe => {
+          this.recipe = recipe;
+          this.image = recipe.image;
+          this.mode = recipe.id ? 'edit' : 'new';
+        });
+    } else {
+      this.mode = 'propose';
+      this.image = this.recipe.image;
+      this.recipe.state = 'proposed'
+    }
   }
 
   async save(recipe: Recipe, image: string | File) {
     const data = new FormData();
+    data.append('mode', this.mode);
     if (recipe.id) {
       data.append('id', '' + recipe.id);
     }
@@ -70,7 +79,10 @@ export class EditPageComponent {
     data.append('steps', recipe.steps = recipe.steps.replaceAll('\r\n', '\n'));
     data.append('category', recipe.category);
     data.append('tags', recipe.tags.join(','));
-    data.append('archived', `${(recipe.archived)}`);
+    if (recipe.author) {
+      data.append('author', recipe.author);
+    }
+    data.append('state', `${(recipe.state)}`);
     if (image instanceof File) {
       const imageData = new Blob([new Uint8Array(await image.arrayBuffer())],
         {type: image.type});
@@ -78,23 +90,29 @@ export class EditPageComponent {
     }
     this.recipeService.save(data).subscribe({
       next: response => {
+        this.snackBar.open(this.mode == 'propose' ? "Vorschlag erstellt!" : 'Save successful.',
+          undefined, {duration: 1000})
+        this.recipe = EMPTY_RECIPE();
+        this.image = this.recipe.image;
         if (!response.offline) {
           this.router.navigate(['r', response.id]);
         }
       },
       error: err => {
         this.snackBar.open(err.status == 403 ? 'Zugriff verweigert.' :
-            err.status == 500 ? 'Serverfehler.' : `Etwas ging schief (${err.status})`,
-          undefined, {duration: 1000});
+            err.status == 500 ? 'Serverfehler.' :
+              `Etwas ging schief (${err.status + (err.message ? ': ' + err.message : '')})`,
+          undefined, {duration: 3000});
       },
     });
   }
 
   saveEnabled(recipe: Recipe, image: string | File): boolean {
-    return !!((!recipe.id || !isNaN(recipe.id)) &&
-      image && recipe.name &&
-      recipe.ingredients && recipe.steps && recipe.category &&
-      (recipe.id || image instanceof File));
+    return !!((!recipe.id || !isNaN(recipe.id)) && image && recipe.name &&
+      recipe.ingredients && recipe.steps && recipe.category && recipe.state &&
+      (recipe.id || image instanceof File)) &&
+      (this.mode != 'propose' || !!recipe.author) &&
+      (!recipe.author || (recipe.author.length > 2 && recipe.author.length < 15));
   }
 
   get display() {

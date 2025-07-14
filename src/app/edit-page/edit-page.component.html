@@ -6,17 +6,18 @@
       <mat-label>Name</mat-label>
       <input matInput type="text" [(ngModel)]="recipe.name" fxFlex>
     </mat-form-field>
-    <mat-radio-group [(ngModel)]="recipe.category" fxFlex fxLayout="row" fxLayoutAlign="space-around center">
-      <mat-radio-button [value]="CATEGORY.easy" color="primary" aria-label="einfach">
+    <mat-radio-group class="category" [(ngModel)]="recipe.category" fxFlex fxLayout="row"
+                     fxLayoutAlign="space-around center">
+      <mat-radio-button [value]="CATEGORY.easy" matTooltip="normal" aria-label="normal">
         <mat-icon>dinner_dining</mat-icon>
       </mat-radio-button>
-      <mat-radio-button [value]="CATEGORY.hard" color="primary" aria-label="schwierig">
+      <mat-radio-button [value]="CATEGORY.hard" matTooltip="schwierig" aria-label="schwierig">
         <mat-icon>brunch_dining</mat-icon>
       </mat-radio-button>
-      <mat-radio-button [value]="CATEGORY.starter" color="primary" aria-label="apéro">
+      <mat-radio-button [value]="CATEGORY.starter" matTooltip="apéro" aria-label="apéro">
         <mat-icon>tapas</mat-icon>
       </mat-radio-button>
-      <mat-radio-button [value]="CATEGORY.dessert" color="primary" aria-label="dessert">
+      <mat-radio-button [value]="CATEGORY.dessert" matTooltip="dessert" aria-label="dessert">
         <mat-icon>icecream</mat-icon>
       </mat-radio-button>
     </mat-radio-group>
@@ -82,11 +83,21 @@
   </div>
 </div>
 <mat-form-field>
-  <mat-label>{{(app.properties$ | async)?.canEdit ? 'Author' : 'Dein Name'}}</mat-label>
+  <mat-label>{{properties.get().canEdit ? 'Author' : 'Dein Name'}}</mat-label>
   <input matInput type="text" [(ngModel)]="recipe.author" fxFlex="none">
 </mat-form-field>
-@if ((app.properties$ | async)?.canEdit) {
-<mat-checkbox [(ngModel)]="recipe.archived">Archived</mat-checkbox>
+@if (properties.get().canEdit) {
+<mat-radio-group [(ngModel)]="recipe.state" fxFlex fxLayout="row" fxLayoutAlign="space-around center">
+  <mat-radio-button value="valid" aria-label="valid">
+    valid
+  </mat-radio-button>
+  <mat-radio-button value="archived" aria-label="archived">
+    archived
+  </mat-radio-button>
+  <mat-radio-button value="proposed" aria-label="proposed">
+    proposed
+  </mat-radio-button>
+</mat-radio-group>
 <span style="min-height: 20px"></span>
 }
 @else {
@@ -101,7 +112,7 @@ hinzufügen, dann den Vorschlag einreichen. Ich werde das Rezept prüfen und fre
   </button>
   <div style="width: 20px" fxFlex="none"></div>
   <button mat-flat-button [disabled]="!saveEnabled(recipe, image)" (click)="save(recipe, image)" fxFlex>
-    {{(app.properties$ | async)?.canEdit ? 'Speichern' : 'Vorschlag Einreichen'}}
+    {{properties.get().canEdit ? 'Speichern' : 'Vorschlag Einreichen'}}
   </button>
 </div>
 <span style="min-height: 40px"></span>

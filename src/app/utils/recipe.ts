@@ -6,11 +6,11 @@ export interface Recipe {
   steps: string;
   category: string;
   tags: string[];
-  archived: boolean;
+  state: string;
   author?: string;
 }
 
-export const EMPTY_RECIPE = {
+export const EMPTY_RECIPE = () => ({
   id: undefined,
   name: '',
   image: 'images/take-picture.png',
@@ -18,8 +18,8 @@ export const EMPTY_RECIPE = {
   steps: '',
   category: '',
   tags: [],
-  archived: false,
-} as unknown as Recipe;
+  state: '',
+} as unknown as Recipe);
 
 export const RECIPE_CATEGORIES = {
   easy: 'easy',

@@ -35,7 +35,7 @@
     <action-string class="notes" [value]="display.notes"></action-string>
   </div>
 </div>
-@if ((app.properties$ | async)?.canEdit) {
+@if (properties.get().canEdit) {
 <a class="edit-button" routerLink="/edit/{{recipe.id}}">
   <button mat-icon-button aria-label="Edit">
     <mat-icon>edit</mat-icon>

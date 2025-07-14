@@ -2,8 +2,11 @@
 @for (item of list; track item.id) {
 <div class="recipe" fxFlex="none" fxLayout="row" fxLayoutAlign="stretch center">
   <div class="image" style="background-image: url('{{item.image}}');" routerLink="/r/{{item.id}}" fxFlex="none">
-    @if (item.archived) {
-    <mat-icon class="archived">archive</mat-icon>
+    @if (item.state == 'archived') {
+    <mat-icon class="state">archive</mat-icon>
+    }
+    @if (item.state == 'proposed') {
+    <mat-icon class="state">add_diamond</mat-icon>
     }
   </div>
   <div class="info" routerLink="/r/{{item.id}}" fxFlex fxLayout="column">

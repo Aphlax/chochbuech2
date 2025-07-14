@@ -17,7 +17,7 @@
   border-top-left-radius: 0;
 }
 
-mat-radio-button {
+.category mat-radio-button {
   display: block;
   position: relative;
   width: 40px;
@@ -26,26 +26,23 @@ mat-radio-button {
   --mdc-radio-selected-focus-icon-color: cornflowerblue;
 }
 
-:host ::ng-deep mat-radio-button .mdc-form-field,
-:host ::ng-deep mat-radio-button .mdc-radio,
-:host ::ng-deep mat-radio-button .mdc-radio__native-control,
-:host ::ng-deep mat-radio-button .mdc-radio__background,
-:host ::ng-deep mat-radio-button .mdc-radio__background:before,
-:host ::ng-deep mat-radio-button .mdc-radio__outer-circle,
-:host ::ng-deep mat-radio-button .mdc-radio__inner-circle,
-:host ::ng-deep mat-radio-button .mdc-label {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-}
+:host ::ng-deep .category mat-radio-button {
+  .mdc-form-field, .mdc-radio, .mdc-radio__native-control, .mdc-radio__background,
+  .mdc-radio__background:before, .mdc-radio__outer-circle, .mdc-radio__inner-circle,
+  .mdc-label {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
 
-:host ::ng-deep mat-radio-button .mdc-radio__native-control:checked + .mdc-radio__background .mdc-radio__inner-circle {
-  transform: scale(0.75);
-  border-width: 20px;
+  .mdc-radio__native-control:checked + .mdc-radio__background .mdc-radio__inner-circle {
+    transform: scale(0.75);
+    border-width: 20px;
+  }
 }
 
 mat-radio-button mat-icon {

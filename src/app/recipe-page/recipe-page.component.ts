@@ -9,9 +9,9 @@ import {MatIconButton} from "@angular/material/button";
 import {ScrollOnLoadDirective} from "../utils/scroll-on-load.directive";
 import {map, Observable} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {AppComponent} from "../app.component";
 import {FlexLayoutServerModule} from "@angular/flex-layout/server";
 import {BroadcastService} from "../broadcast.service";
+import {PropertiesService} from "../utils/properties-service";
 
 @Component({
   selector: 'recipe-page',
@@ -26,7 +26,8 @@ export class RecipePageComponent {
   zoom = false;
 
   constructor(private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar,
-              public readonly app: AppComponent, $broadcast: BroadcastService, router: Router) {
+              public readonly properties: PropertiesService, $broadcast: BroadcastService,
+              router: Router) {
     this.recipe$ = this.route.data.pipe(map(data => data['recipe']));
     $broadcast.addRecipeToShoppingEvent.subscribe(() => this.recipe$.subscribe(recipe =>
       router.navigate(['/shopping-list'], {state: {["addRecipe"]: recipe}})));
