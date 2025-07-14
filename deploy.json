@@ -1,0 +1,8 @@
+{
+  "urlComment": "Also go to https://cloud.mongodb.com/v2/60ac3027b145744fd08a66b1#security/network/accessList and change allowed ips.",
+  "url": "192.168.0.15",
+  "user": "user",
+  "keyPath": "./fabiansserver-user.id_rsa",
+  "prodDir": "/home/user/chochbuech/app/",
+  "packageDir": "./dist/chochbuech2/"
+}

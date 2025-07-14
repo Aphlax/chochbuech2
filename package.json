@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:chochbuech2": "node dist/chochbuech2/server/server.mjs"
+    "serve:ssr:chochbuech2": "node dist/chochbuech2/server/server.mjs",
+    "deploy": "./deploy.ps1"
   },
   "private": true,
   "dependencies": {

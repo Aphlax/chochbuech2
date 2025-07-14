@@ -6,6 +6,8 @@ import {dirname, join, resolve} from 'node:path';
 import bootstrap from './src/main.server';
 import {ChochbuechServer} from "./chochbuech-server";
 
+const nconf = require('nconf');
+
 // The Express app is exported so that it can be used by serverless Functions.
 export async function app(): Promise<express.Express> {
   const server = express();
@@ -48,7 +50,8 @@ export async function app(): Promise<express.Express> {
 }
 
 async function run() {
-  const port = process.env['PORT'] || 4000;
+  nconf.file('config', 'config.json');
+  const port = Number(nconf.get('serverProdPort'));
 
   // Start up the Node server
   const server = await app();
