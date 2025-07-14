@@ -22,8 +22,8 @@
   position: relative;
   width: 40px;
   height: 40px;
-  --mdc-radio-selected-icon-color: cornflowerblue;
-  --mdc-radio-selected-focus-icon-color: cornflowerblue;
+  --mdc-radio-selected-icon-color: #005cbb;
+  --mdc-radio-selected-focus-icon-color: #005cbb;
 }
 
 :host ::ng-deep .category mat-radio-button {

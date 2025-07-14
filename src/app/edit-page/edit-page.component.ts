@@ -65,7 +65,7 @@ export class EditPageComponent implements OnDestroy {
         });
     } else {
       this.mode = this.properties.get().canEdit ? 'new' : 'propose';
-      const storedRecipe = localStorage.getItem('new-recipe');
+      const storedRecipe = localStorage?.getItem('new-recipe');
       this.recipe = storedRecipe ? JSON.parse(storedRecipe) : EMPTY_RECIPE();
       this.recipe.state = this.properties.get().canEdit ? 'valid' : 'proposed';
       this.image = EMPTY_IMAGE;
@@ -73,7 +73,9 @@ export class EditPageComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    localStorage.setItem('new-recipe', JSON.stringify({...this.recipe, image: ''}));
+    if (localStorage) {
+      localStorage.setItem('new-recipe', JSON.stringify({...this.recipe, image: ''}));
+    }
   }
 
   async save(recipe: Recipe, image: string | File) {

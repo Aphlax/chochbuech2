@@ -1,0 +1,26 @@
+{
+  "name": "Chochbuech",
+  "short_name": "Chochbuech",
+  "theme_color": "#efefef",
+  "background_color": "#666C73",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Einkaufsliste",
+      "short_name": "Einkaufsliste",
+      "description": "Zur Einkaufsliste.",
+      "url": "/shopping-list",
+      "icons": [{ "src": "app-icon.png", "sizes": "512x512" }]
+    }
+  ]
+}

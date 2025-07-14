@@ -1,8 +1,5 @@
 import {
-  APP_INITIALIZER,
-  ApplicationConfig,
-  importProvidersFrom,
-  provideZoneChangeDetection
+  APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideZoneChangeDetection, isDevMode
 } from '@angular/core';
 import {provideRouter, RouteReuseStrategy} from '@angular/router';
 import {routes} from './app.routes';
@@ -13,6 +10,7 @@ import {MAT_TABS_CONFIG} from '@angular/material/tabs';
 import {CookieModule} from "ngx-cookie";
 import {ComponentReuseStrategy} from "./utils/component-reuse-strategy";
 import {PropertiesService} from "./utils/properties-service";
+import {provideServiceWorker} from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +27,9 @@ export const appConfig: ApplicationConfig = {
       deps: [PropertiesService],
       useFactory: (service: PropertiesService) => () => service.load(),
       multi: true,
-    },
+    }, provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ]
 };
