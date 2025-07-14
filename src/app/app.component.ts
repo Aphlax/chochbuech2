@@ -10,13 +10,14 @@ import {MatListModule} from "@angular/material/list";
 import {FlexLayoutServerModule} from "@angular/flex-layout/server";
 import {BroadcastService} from "./broadcast.service";
 import {CookieService} from "ngx-cookie";
-import {Properties, PropertiesService} from "./utils/properties-service";
+import {PropertiesService} from "./utils/properties-service";
+import {MatBadge} from "@angular/material/badge";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterModule, MatToolbar, MatIconButton, MatIcon, FlexLayoutModule,
-    FlexLayoutServerModule, MatSidenavModule, MatListModule, AsyncPipe],
+    FlexLayoutServerModule, MatSidenavModule, MatListModule, AsyncPipe, MatBadge],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

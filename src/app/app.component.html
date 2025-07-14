@@ -4,27 +4,33 @@
       <div id="app-icon-big" (click)="admin()"><img src="app-icon.png"></div>
       <mat-list (click)="sidenav.close()">
         <a mat-list-item routerLink="/">
-          <mat-icon matListItemIcon fontIcon="dinner_dining"/>
+          <mat-icon matListItemIcon>dinner_dining</mat-icon>
           <span matListItemTitle>Rezepte</span>
         </a>
         <a mat-list-item routerLink="/shopping-list">
-          <mat-icon matListItemIcon fontIcon="shopping_cart"/>
+          <mat-icon matListItemIcon>shopping_cart</mat-icon>
           <span matListItemTitle>Einkaufs-Liste</span>
         </a>
         <a mat-list-item routerLink="/search">
-          <mat-icon matListItemIcon fontIcon="search"/>
+          <mat-icon matListItemIcon>search</mat-icon>
           <span matListItemTitle>Suchen</span>
         </a>
         <mat-divider></mat-divider>
         <a mat-list-item routerLink="/new">
-          <mat-icon matListItemIcon fontIcon="add"/>
+          <mat-icon matListItemIcon>add</mat-icon>
           <span matListItemTitle>{{properties.get().canEdit ? 'Neues Rezept' : 'Rezept Vorschlagen'}}</span>
         </a>
         @if (properties.get().canEdit) {
         <a mat-list-item routerLink="/all">
-          <mat-icon matListItemIcon fontIcon="list"/>
+          <mat-icon matListItemIcon>list</mat-icon>
           <span matListItemTitle>Alle Rezepte</span>
         </a>
+        @if (properties.get().proposedCount) {
+        <a mat-list-item routerLink="/all" [queryParams]="{proposed: true}">
+          <mat-icon matListItemIcon [matBadge]="properties.get().proposedCount">add_box</mat-icon>
+          <span matListItemTitle>Vorschläge</span>
+        </a>
+        }
         }
       </mat-list>
       <span fxFlex></span>
@@ -57,7 +63,10 @@
       </button>
       }
       <button mat-icon-button aria-label="Menu öffnen" (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
+        <mat-icon [matBadge]="properties.get().proposedCount"
+                  [matBadgeHidden]="!properties.get().proposedCount" aria-hidden="false">
+          menu
+        </mat-icon>
       </button>
     </mat-toolbar>
     <router-outlet/>

@@ -5,11 +5,12 @@ import {isPlatformServer} from "@angular/common";
 
 export interface Properties {
   canEdit: boolean;
+  proposedCount: number;
 }
 
 @Injectable({providedIn: 'root'})
 export class PropertiesService {
-  private properties: Properties = {canEdit: false};
+  private properties: Properties = {canEdit: false, proposedCount: 0};
 
   constructor(private readonly http: HttpClient,
               @Inject(PLATFORM_ID) private readonly platformId: Object) {

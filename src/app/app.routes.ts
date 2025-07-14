@@ -52,7 +52,8 @@ export const routes: Routes = [
   {path: 'search', component: SearchPageComponent},
   {
     path: 'all', component: ListPageComponent, resolve: {
-      list: () => inject(RecipeService).list('all'),
+      list: (route: ActivatedRouteSnapshot) =>
+        inject(RecipeService).list(route.queryParams['proposed'] ? 'proposed' : 'all'),
     }
   },
   {
@@ -63,11 +64,5 @@ export const routes: Routes = [
         inject(RecipeService).get(route.paramMap.get('id') ?? ''),
     }
   },
-  {
-    path: 'new',
-    component: EditPageComponent,
-    resolve: {
-      recipe: EMPTY_RECIPE,
-    }
-  },
+  {path: 'new', component: EditPageComponent},
 ];

@@ -109,8 +109,8 @@ export class EditPageComponent {
 
   saveEnabled(recipe: Recipe, image: string | File): boolean {
     return !!((!recipe.id || !isNaN(recipe.id)) && image && recipe.name &&
-      recipe.ingredients && recipe.steps && recipe.category && recipe.state &&
-      (recipe.id || image instanceof File)) &&
+        recipe.ingredients && recipe.steps && recipe.category && recipe.state &&
+        (recipe.id || image instanceof File)) &&
       (this.mode != 'propose' || !!recipe.author) &&
       (!recipe.author || (recipe.author.length > 2 && recipe.author.length < 15));
   }

@@ -39,6 +39,10 @@ export async function listRecipes(db: Db, category: string) {
     return await db.collection('recipes').aggregate([
       {$set: {id: "$_id"}}, {$sort: {id: 1}}, {$project: {_id: 0}},
     ]).toArray();
+  } else if (category == 'proposed') {
+    return await db.collection('recipes').aggregate([
+      {$match: {state: 'proposed'}}, {$set: {id: "$_id"}}, {$sort: {id: 1}}, {$project: {_id: 0}},
+    ]).toArray();
   }
 
   let limit = 10;
@@ -92,7 +96,7 @@ export async function searchRecipes(db: Db, query: string) {
     {
       $search: {
         index: 'autocomplete-de',
-        text: {path: 'name', query: query, fuzzy: {maxEdits: 2}},
+        text: {path: ['name', 'ingredients'], query: query, fuzzy: {maxEdits: 2}},
       }
     },
     {$match: {state: {$ne: 'proposed'}}},
@@ -119,6 +123,11 @@ export function validSaveRecipeRequest(body: any, file: any) {
     ((typeof body.author == 'string' && body.author.length < 15 && body.author.length > 2) || !body.author) &&
     ALLOWED_STATES.includes(body.state) && (body.mode != 'propose' || body.state == 'proposed') &&
     (!file || ALLOWED_MIME_TYPES.includes(file.mimetype)) && (body.mode == 'edit' || !!file);
+}
+
+export async function dbProperties(db: Db) {
+  const proposedCount = await db.collection('recipes').countDocuments({state: 'proposed'});
+  return {proposedCount};
 }
 
 export async function saveRecipe(db: Db, body: any, file: any) {
