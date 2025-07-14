@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {FlexLayoutModule} from "@angular/flex-layout";
@@ -21,6 +21,8 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {ActionStringComponent} from "../action-string/action-string.component";
 import {PropertiesService} from "../utils/properties-service";
 
+const EMPTY_IMAGE = 'images/take-picture.png';
+
 const RECIPE_TOOLTIP = `Formatierung:
 · Erste Linie kann mit "Vorbereitung:" starten.
 · Jede folgende Zeile wird als Schritt dargestellt (Nummerierung nicht nötig).
@@ -41,7 +43,7 @@ const INGREDIENTS_TOOLTIP = `Formatierung:
   templateUrl: './edit-page.component.html',
   styleUrl: './edit-page.component.scss'
 })
-export class EditPageComponent {
+export class EditPageComponent implements OnDestroy {
   readonly CATEGORY = RECIPE_CATEGORIES;
   readonly RECIPE_TOOLTIP = RECIPE_TOOLTIP;
   readonly INGREDIENTS_TOOLTIP = INGREDIENTS_TOOLTIP;
@@ -54,18 +56,24 @@ export class EditPageComponent {
   constructor(private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar,
               private readonly recipeService: RecipeService, private readonly router: Router,
               public readonly properties: PropertiesService) {
-    if (this.properties.get().canEdit) {
+    if (this.route.snapshot.url[0].path == 'edit') {
+      this.mode = 'edit';
       this.route.data.pipe(map(data => data['recipe']))
         .subscribe(recipe => {
           this.recipe = recipe;
           this.image = recipe.image;
-          this.mode = recipe.id ? 'edit' : 'new';
         });
     } else {
-      this.mode = 'propose';
-      this.image = this.recipe.image;
-      this.recipe.state = 'proposed'
+      this.mode = this.properties.get().canEdit ? 'new' : 'propose';
+      const storedRecipe = localStorage.getItem('new-recipe');
+      this.recipe = storedRecipe ? JSON.parse(storedRecipe) : EMPTY_RECIPE();
+      this.recipe.state = this.properties.get().canEdit ? 'valid' : 'proposed';
+      this.image = EMPTY_IMAGE;
     }
+  }
+
+  ngOnDestroy(): void {
+    localStorage.setItem('new-recipe', JSON.stringify({...this.recipe, image: ''}));
   }
 
   async save(recipe: Recipe, image: string | File) {
@@ -93,7 +101,7 @@ export class EditPageComponent {
         this.snackBar.open(this.mode == 'propose' ? "Vorschlag erstellt!" : 'Save successful.',
           undefined, {duration: 1000})
         this.recipe = EMPTY_RECIPE();
-        this.image = this.recipe.image;
+        this.image = EMPTY_IMAGE;
         if (!response.offline) {
           this.router.navigate(['r', response.id]);
         }

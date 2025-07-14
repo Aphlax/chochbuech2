@@ -13,7 +13,7 @@ export interface Recipe {
 export const EMPTY_RECIPE = () => ({
   id: undefined,
   name: '',
-  image: 'images/take-picture.png',
+  image: '',
   ingredients: '',
   steps: '',
   category: '',
