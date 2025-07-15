@@ -14,6 +14,8 @@ import {CookieService} from "ngx-cookie";
 import {BroadcastService} from "../broadcast.service";
 import {Recipe} from "../utils/recipe";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {QuickItemsDialogComponent} from "./quick-items-dialog/quick-items-dialog.component";
 
 interface ShoppingItem {
   selected: boolean;
@@ -43,7 +45,7 @@ export class ShoppingPageComponent {
   newItemLabel = '';
 
   constructor(private readonly cookieService: CookieService, private readonly snackBar: MatSnackBar,
-              $broadcast: BroadcastService, router: Router) {
+              $broadcast: BroadcastService, router: Router, private readonly dialog: MatDialog) {
     const addRecipe = router.getCurrentNavigation()?.extras.state?.["addRecipe"] as Recipe;
     if (addRecipe) {
       this.addRecipeToShopping(addRecipe);
@@ -109,6 +111,11 @@ export class ShoppingPageComponent {
     setTimeout(() => {
       this.list = list;
     }, 0);
+  }
+
+  openQuickItems() {
+    this.dialog.open(QuickItemsDialogComponent, {autoFocus: false}).afterClosed().subscribe(items =>
+      items?.forEach((item: string) => this.list.push(createItem(item))));
   }
 }
 

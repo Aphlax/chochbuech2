@@ -2,7 +2,7 @@
        (keyup.enter)="immediate.next(value)" placeholder="Suche" fxFlex="none">
 @if (search$ | async; as search) {
 <div class="loading-container">
-  <div class="loading-indicator" [ngClass]="{show: search.loading}"
+  <div class="loading-indicator" [class.show]="search.loading"
        fxLayout="column" fxLayoutAlign="center center">
     <mat-spinner diameter="32"></mat-spinner>
   </div>

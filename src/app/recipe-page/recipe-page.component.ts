@@ -3,7 +3,7 @@ import {Recipe, recipeDisplay, RecipeDisplay} from "../utils/recipe";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ActionStringComponent} from "../action-string/action-string.component";
 import {MatIcon} from "@angular/material/icon";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatIconButton} from "@angular/material/button";
 import {ScrollOnLoadDirective} from "../utils/scroll-on-load.directive";
@@ -17,7 +17,7 @@ import {PropertiesService} from "../utils/properties-service";
   selector: 'recipe-page',
   standalone: true,
   imports: [FlexLayoutModule, FlexLayoutServerModule, ActionStringComponent, MatIcon, MatIconButton,
-    NgClass, AsyncPipe, ScrollOnLoadDirective, RouterLink],
+    AsyncPipe, ScrollOnLoadDirective, RouterLink],
   templateUrl: './recipe-page.component.html',
   styleUrl: './recipe-page.component.scss'
 })

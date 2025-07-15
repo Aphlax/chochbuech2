@@ -1,0 +1,29 @@
+<div class="content" fxLayout="column">
+  <div fxLayout="row">
+    <h4 fxFlex>Schnellauswahl</h4>
+    @if (!edit) {
+    <button mat-icon-button (click)="openEdit()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    }
+  </div>
+  @if (!edit) {
+  <mat-selection-list [(ngModel)]="selectedItems">
+    @for (item of items; track item) {
+    <mat-list-option [value]="item">{{item}}</mat-list-option>
+    }
+  </mat-selection-list>
+  <div fxLayout="row">
+    <button mat-button (click)="onCancel()" fxFlex>Zurück</button>
+    <button mat-flat-button (click)="onSubmit()" fxFlex>Ok</button>
+  </div>
+  } @else {
+  <div class="edit-input" fxLayout="column">
+    <textarea [(ngModel)]="editText" autoHeight fxFlex="none"></textarea>
+  </div>
+  <div fxLayout="row">
+    <button mat-button (click)="edit = false" fxFlex>Abbrechen</button>
+    <button mat-flat-button (click)="closeEdit()" fxFlex>Speichern</button>
+  </div>
+  }
+</div>

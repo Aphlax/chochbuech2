@@ -54,7 +54,7 @@ mat-checkbox .origin {
 }
 
 .new-item-container input {
-  margin: 8px 12px;
+  margin: 8px 0;
 }
 
 .no-items {
@@ -71,4 +71,16 @@ mat-checkbox .origin {
   bottom: 20px;
   right: 20px;
   z-index: 1;
+}
+
+.quick-items-button {
+  position: absolute;
+  bottom: 90px;
+  right: 20px;
+  z-index: 1;
+  transition: bottom 0.3s ease;
+}
+
+.quick-items-button.alone {
+  bottom: 20px;
 }

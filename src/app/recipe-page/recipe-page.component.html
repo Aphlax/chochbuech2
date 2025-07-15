@@ -3,7 +3,7 @@
 <div class="image" style="background-image: url('{{recipe.image}}');"></div>
 <div class="card-container" scrollOnLoad>
   <div class="card-spacer"></div>
-  <div class="card" [ngClass]="{zoom: zoom}" fxLayout="column">
+  <div class="card" [class.zoom]="zoom" fxLayout="column">
     <div fxLayout="row">
       <span class="name" fxFlex>{{recipe.name}}</span>
       <button mat-icon-button class="share-button" (click)="shareRecipe(recipe)">

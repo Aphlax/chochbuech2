@@ -50,8 +50,8 @@ export async function app(): Promise<express.Express> {
 }
 
 async function run() {
-  nconf.file('config', 'config.json');
-  const port = Number(nconf.get('serverProdPort'));
+  nconf.file('config', 'config.json').env();
+  const port = nconf.get('NODE_ENV') == 'production' ? Number(nconf.get('serverProdPort')) : 4000;
 
   // Start up the Node server
   const server = await app();

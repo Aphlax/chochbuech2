@@ -27,7 +27,7 @@
         </a>
         @if (properties.get().proposedCount) {
         <a mat-list-item routerLink="/all" [queryParams]="{proposed: true}">
-          <mat-icon matListItemIcon [matBadge]="properties.get().proposedCount">add_box</mat-icon>
+          <mat-icon matListItemIcon [matBadge]="properties.get().proposedCount">playlist_add_check</mat-icon>
           <span matListItemTitle>Vorschläge</span>
         </a>
         }

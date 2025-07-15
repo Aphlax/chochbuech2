@@ -16,7 +16,7 @@ import {
   Subject,
   take
 } from "rxjs";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 interface SearchCache {
@@ -28,8 +28,7 @@ interface SearchCache {
   selector: 'search-page',
   standalone: true,
   imports: [
-    FlexLayoutServerModule, FlexLayoutModule, FormsModule, RouterLink, AsyncPipe,
-    MatProgressSpinner, NgClass,
+    FlexLayoutServerModule, FlexLayoutModule, FormsModule, RouterLink, AsyncPipe, MatProgressSpinner,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss'
