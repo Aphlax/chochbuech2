@@ -57,6 +57,9 @@
     <div fxLayout="row">
       <span class="name" fxFlex>{{recipe.name}}</span>
     </div>
+    @if (recipe.author) {
+    <span class="author">von {{recipe.author}}</span>
+    }
     @for (group of display.ingredientGroups; track $index) {
     @if (group.name) {
     <span class="ingredient-group-name">{{group.name}}</span>

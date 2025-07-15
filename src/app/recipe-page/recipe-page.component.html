@@ -10,6 +10,9 @@
         <mat-icon>share</mat-icon>
       </button>
     </div>
+    @if (recipe.author) {
+    <span class="author">von {{recipe.author}}</span>
+    }
     @for (group of display.ingredientGroups; track $index) {
       @if (group.name) {
         <span class="ingredient-group-name" (click)="zoom = true" tabindex="-1">{{group.name}}</span>

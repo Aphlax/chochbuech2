@@ -11,7 +11,7 @@ import {
 } from "../sortable-list/sortable-list-item/sortable-list-item.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CookieService} from "ngx-cookie";
-import {BroadcastService} from "../broadcast.service";
+import {BroadcastService} from "../utils/broadcast.service";
 import {Recipe} from "../utils/recipe";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";

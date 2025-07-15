@@ -10,7 +10,7 @@ import {ScrollOnLoadDirective} from "../utils/scroll-on-load.directive";
 import {map, Observable} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FlexLayoutServerModule} from "@angular/flex-layout/server";
-import {BroadcastService} from "../broadcast.service";
+import {BroadcastService} from "../utils/broadcast.service";
 import {PropertiesService} from "../utils/properties-service";
 
 @Component({

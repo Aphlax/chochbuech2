@@ -64,6 +64,11 @@
   line-height: 20px;
 }
 
+.author {
+  font-size: 12px;
+  margin: -16px 0 4px 24px;
+}
+
 .share-button {
   padding: 9px 8px 7px 8px;
   margin-top: 4px;
@@ -104,6 +109,10 @@
 .card.zoom .name {
   font-size: 32px;
   line-height: 36px;
+}
+
+.card.zoom .author {
+  display: none;
 }
 
 .card.zoom .ingredient-group-list, .card.zoom .preparation, .card.zoom .step {

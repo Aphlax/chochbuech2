@@ -8,7 +8,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {FlexLayoutServerModule} from "@angular/flex-layout/server";
-import {BroadcastService} from "./broadcast.service";
+import {BroadcastService} from "./utils/broadcast.service";
 import {CookieService} from "ngx-cookie";
 import {PropertiesService} from "./utils/properties-service";
 import {MatBadge} from "@angular/material/badge";

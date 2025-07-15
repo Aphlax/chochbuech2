@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, Inject, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {FlexLayoutModule} from "@angular/flex-layout";
@@ -16,7 +16,7 @@ import {map} from "rxjs";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RecipeService} from "../recipe.service";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, isPlatformBrowser} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {ActionStringComponent} from "../action-string/action-string.component";
 import {PropertiesService} from "../utils/properties-service";
@@ -55,7 +55,8 @@ export class EditPageComponent implements OnDestroy {
 
   constructor(private readonly route: ActivatedRoute, private readonly snackBar: MatSnackBar,
               private readonly recipeService: RecipeService, private readonly router: Router,
-              public readonly properties: PropertiesService) {
+              public readonly properties: PropertiesService,
+              @Inject(PLATFORM_ID) private readonly platformId: Object) {
     if (this.route.snapshot.url[0].path == 'edit') {
       this.mode = 'edit';
       this.route.data.pipe(map(data => data['recipe']))
@@ -65,7 +66,7 @@ export class EditPageComponent implements OnDestroy {
         });
     } else {
       this.mode = this.properties.get().canEdit ? 'new' : 'propose';
-      const storedRecipe = localStorage?.getItem('new-recipe');
+      const storedRecipe = isPlatformBrowser(this.platformId) && localStorage.getItem('new-recipe');
       this.recipe = storedRecipe ? JSON.parse(storedRecipe) : EMPTY_RECIPE();
       this.recipe.state = this.properties.get().canEdit ? 'valid' : 'proposed';
       this.image = EMPTY_IMAGE;
@@ -73,7 +74,7 @@ export class EditPageComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (localStorage) {
+    if (this.mode != 'edit' && isPlatformBrowser(this.platformId)) {
       localStorage.setItem('new-recipe', JSON.stringify({...this.recipe, image: ''}));
     }
   }
