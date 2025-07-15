@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Recipe, recipeDisplay, RecipeDisplay} from "../utils/recipe";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ActionStringComponent} from "../action-string/action-string.component";
@@ -21,7 +21,8 @@ import {PropertiesService} from "../utils/properties-service";
   templateUrl: './recipe-page.component.html',
   styleUrl: './recipe-page.component.scss'
 })
-export class RecipePageComponent {
+export class RecipePageComponent implements OnInit, OnDestroy {
+  wakeLock?: WakeLockSentinel = undefined;
   readonly recipe$: Observable<Recipe>;
   zoom = false;
 
@@ -48,6 +49,39 @@ export class RecipePageComponent {
       await (navigator as any).clipboard.writeText(
         `${window.location}#${recipe.name.replaceAll(' ', '-')}`);
       this.snackBar.open('Link kopiert!', undefined, {duration: 1000});
+    }
+  }
+
+  visibilityChangeEvent = this.onVisibilityChange.bind(this);
+
+  async ngOnInit() {
+    document.addEventListener('visibilitychange', this.visibilityChangeEvent);
+    document.addEventListener('fullscreenchange', this.visibilityChangeEvent);
+    await this.engageWakeLock();
+  }
+
+  async ngOnDestroy() {
+    document.removeEventListener('visibilitychange', this.visibilityChangeEvent);
+    document.removeEventListener('fullscreenchange', this.visibilityChangeEvent);
+    if (this.wakeLock) {
+      await this.wakeLock.release();
+      this.wakeLock = undefined;
+    }
+  }
+
+  async onVisibilityChange() {
+    if (this.wakeLock?.released && document.visibilityState == 'visible') {
+      return await this.engageWakeLock();
+    }
+  }
+
+  async engageWakeLock() {
+    if (!('wakeLock' in navigator && 'request' in navigator.wakeLock)) {
+      return;
+    }
+    try {
+      this.wakeLock = await navigator.wakeLock.request('screen');
+    } catch (e) {
     }
   }
 }
