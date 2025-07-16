@@ -10,8 +10,7 @@
     {
       "src": "app-icon.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/png"
     }
   ],
   "shortcuts": [
@@ -21,6 +20,13 @@
       "description": "Zur Einkaufsliste.",
       "url": "/shopping-list",
       "icons": [{ "src": "app-icon.png", "sizes": "512x512" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/demo01.png",
+      "sizes": "850x1652",
+      "type": "image/png"
     }
   ]
 }
