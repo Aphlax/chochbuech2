@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="over" position="end">
+  <mat-sidenav #sidenav mode="over" position="end" [autoFocus]="false">
     <div id="sidenav-content" fxLayout="column">
       <div id="app-icon-big" (click)="admin()"><img src="app-icon.png"></div>
       <mat-list (click)="sidenav.close()">
@@ -18,21 +18,29 @@
         <mat-divider></mat-divider>
         <a mat-list-item routerLink="/new">
           <mat-icon matListItemIcon>add</mat-icon>
-          <span matListItemTitle>{{properties.get().canEdit ? 'Neues Rezept' : 'Rezept Vorschlagen'}}</span>
+          <span matListItemTitle>
+            {{ properties.get().canEdit ? 'Neues Rezept' : 'Rezept Vorschlagen' }}
+          </span>
         </a>
         @if (properties.get().canEdit) {
-        <a mat-list-item routerLink="/all">
-          <mat-icon matListItemIcon>list</mat-icon>
-          <span matListItemTitle>Alle Rezepte</span>
-        </a>
-        @if (properties.get().proposedCount) {
-        <a mat-list-item routerLink="/all" [queryParams]="{proposed: true}">
-          <mat-icon matListItemIcon [matBadge]="properties.get().proposedCount">playlist_add_check</mat-icon>
-          <span matListItemTitle>Vorschläge</span>
-        </a>
-        }
+          <a mat-list-item routerLink="/all">
+            <mat-icon matListItemIcon>list</mat-icon>
+            <span matListItemTitle>Alle Rezepte</span>
+          </a>
+          @if (properties.get().proposedCount) {
+            <a mat-list-item routerLink="/all" [queryParams]="{proposed: true}">
+              <mat-icon matListItemIcon [matBadge]="properties.get().proposedCount">
+                playlist_add_check
+              </mat-icon>
+              <span matListItemTitle>Vorschläge</span>
+            </a>
+          }
         }
       </mat-list>
+      @if (installPrompt) {
+        <span style="height: 12px;"></span>
+        <button mat-stroked-button (click)="install()" fxFlexAlign="center">Install</button>
+      }
       <span fxFlex></span>
       <span class="credits">s&#8217;Chochbuech vom Fabian</span>
       <input #adminInput type="text">
@@ -45,22 +53,24 @@
       </button>
       <span (click)="router.navigate(['/'])">Chochbuech</span>
       <span fxFlex></span>
-      @if (router.url  == "/") {
-      <a routerLink="/search">
-        <button mat-icon-button aria-label="Suche">
-          <mat-icon>search</mat-icon>
-        </button>
-      </a>
+      @if (router.url == "/") {
+        <a routerLink="/search">
+          <button mat-icon-button aria-label="Suche">
+            <mat-icon>search</mat-icon>
+          </button>
+        </a>
       }
       @if (router.url.startsWith("/r")) {
-      <button mat-icon-button aria-label="Zur Einkaufsliste hinzufügen" (click)="$broadcast.addRecipeToShopping()">
-        <mat-icon>add_shopping_cart</mat-icon>
-      </button>
+        <button mat-icon-button aria-label="Zur Einkaufsliste hinzufügen"
+                (click)="$broadcast.addRecipeToShopping()">
+          <mat-icon>add_shopping_cart</mat-icon>
+        </button>
       }
       @if (router.url == "/shopping-list") {
-      <button mat-icon-button aria-label="Entferne selektierte Produkte" (click)="$broadcast.shoppingListRemoveDone()">
-        <mat-icon>remove_done</mat-icon>
-      </button>
+        <button mat-icon-button aria-label="Entferne selektierte Produkte"
+                (click)="$broadcast.shoppingListRemoveDone()">
+          <mat-icon>remove_done</mat-icon>
+        </button>
       }
       <button mat-icon-button aria-label="Menu öffnen" (click)="sidenav.toggle()">
         <mat-icon [matBadge]="properties.get().proposedCount"
